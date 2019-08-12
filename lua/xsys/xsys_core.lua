@@ -300,6 +300,12 @@ do --Rank System
 				local u = luadata.ReadFile(UserFile)
 				u[name] = u[name] or {}
 				u[name][self:SteamID()] = self:Nick():gsub("%A","") or "N/A"
+				for k,v in pairs(xsys.Ranks) do
+					if k:lower() == name then continue end
+					if u[k:lower()][self:SteamID()] then
+						u[k:lower()][self:SteamID()] = nil
+					end
+				end
 				file.CreateDir("xsys")
 				luadata.WriteFile(UserFile,u)
 				xsys.Notify("Rank",string.format("Changing %s (%s)'s rank to %s",self:Nick(),self:SteamID(),name))
