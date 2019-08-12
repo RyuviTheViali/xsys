@@ -306,15 +306,41 @@ do
 		end)
 		
 		xsys.AddCommand({"retry","rejoin"},function(ply,txt,target)
-			target = target and easylua.FindEntity(target) or nil
+			target = ply:CheckUserGroupLevel("designers") and target and easylua.FindEntity(target) or ply
 			if not IsValid(target) or not target:IsPlayer() then target = ply end
 			target:SendLua("LocalPlayer():ConCommand('retry')")
-		end,"designers")
+		end)
 		
 		xsys.AddCommand("rehash",function(ply,txt,server,repo)
 			if not repo then return false,"All repos at once not supported yet" end
 			stcp.SendCmd({"rehash",repo},{"git -C /home/steam/srcds/xenora"..server.."/garrysmod/addons/"..repo.." pull"},"gmod.xenora.net",27039)
 		end,"designers")
+
+		xsys.AddCommand("kick",function(ply,line,target,reason)
+			local ent = easylua.FindEntity(target)
+			if ent:IsPlayer() then
+				if cleanup and cleanup.CC_Cleanup then cleanup.CC_Cleanup(ent,"gmod_cleanup",{}) end
+				local rsn = reason or "*kicked*"
+				xsys.Msg("kick",tostring(ply).. " kicked "..tostring(ent).." for "..rsn)
+				hook.Run("XsysTargetCommand",ply,"kick",ent,rsn)
+				return ent:Kick(rsn or "*kicked*")
+			end
+			return false,xsys.TargetNotFound(target)
+		end,"guardians")
+		
+		--[[xsys.AddCommand("ban",function(ply,line,target,length,reason)
+			local ent = easylua.FindEntity(target)
+			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+
+		end,"overwatch")
+
+		xsys.AddCommand("unban",function(ply,line,target,reason)
+
+		end,"overwatch")
+
+		xsys.AddCommand("baninfo",function(ply,line,target)
+		
+		end)]] --TODO, NEED TO WRITE BAN SYSTEM
 		
 		local function dow(v,t)
 			if not v:IsValid() then return end
@@ -430,7 +456,7 @@ do
 					ErrorNoHalt("Restrictions enabled for "..tostring(ply)..".")
 				end
 				ply.Unrestricted = unrestricted
-			end,"designers")
+			end)
 		end
 	end
 end
