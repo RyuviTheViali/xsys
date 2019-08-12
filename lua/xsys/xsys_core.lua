@@ -261,7 +261,7 @@ do --Rank System
 	team.SetUp(3,"developers",Color(100,200,100))
 	team.SetUp(4,"guardians" ,Color(128,170,255))
 	team.SetUp(5,"overwatch" ,Color(64 ,128,255))
-	team.SetUp(6,"owners"    ,Color(180,100,255))
+	team.SetUp(6,"owners"    ,Color(150,100,255))
 	
 	if SERVER then
 		local nostore = {
