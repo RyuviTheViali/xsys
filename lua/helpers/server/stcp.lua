@@ -164,7 +164,6 @@ hook.Add("stcpcl","getcmdsuccess",function(client,data)
 	end
 end)
 
-timer.Simple(1,function()
-	stcp.Msg("Started connection server")
+hook.Add("InitPostEntity","STCP_StartServer",function()
 	stcp.StartServer("0.0.0.0",GetHostName():lower():find("private") ~= nil and 27038 or 35001)
 end)
