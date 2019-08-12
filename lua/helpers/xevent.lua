@@ -312,7 +312,7 @@ function xeventIncoming(id,info)
 		info.bot			= p:IsBot() and 1 or 0
 		info.entity 		= cached and cached.entity or setmetatable({p},{__mode="v"})
 		info.entity_valid   = true
-		info.name			= xevent.EngineNick(p)
+		info.name			= xevent.EngineNick(p) == "" and (cached and cached.name or xevent.EngineNick(p)) or xevent.EngineNick(p)
 		info.connecting     = false
 		info.Entity         = p
 		info.teamid         = false
