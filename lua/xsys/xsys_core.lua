@@ -256,8 +256,8 @@ do --Rank System
 		return self:GetNetworkedString("Rank"):lower()
 	end
 	
-	team.SetUp(1,"players"   ,Color(96 ,96 ,96 ))
-	team.SetUp(2,"designers" ,Color(90 ,90 ,190))
+	team.SetUp(1,"players"   ,Color(128,128,128))
+	team.SetUp(2,"designers" ,Color(100,100,200))
 	team.SetUp(3,"developers",Color(100,200,100))
 	team.SetUp(4,"guardians" ,Color(128,170,255))
 	team.SetUp(5,"overwatch" ,Color(64 ,128,255))
