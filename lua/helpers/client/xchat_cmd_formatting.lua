@@ -272,3 +272,19 @@ ccf:AddCommand({
 	NeedsParameters = true,
 	PlayerCanUse = false
 })
+
+local function GodFormat(player,input,target)
+	if target and IsValid(target) then
+		local god = target:HasGodMode()
+		return true,{" has ",green,god and "godded" or "ungodded",grey,target:Nick()}
+	else
+		return true,{" has ",green,god and "godded" or "ungodded",grey,"themselves"}
+	end
+end
+
+ccf:AddCommand({
+	command = "god",
+	ParameterHandler  = SendFormat,
+	NeedsParameters = true,
+	PlayerCanUse = false
+})
