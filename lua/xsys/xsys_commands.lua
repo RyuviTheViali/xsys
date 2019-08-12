@@ -279,7 +279,7 @@ do
 			if g and g ~= "" then
 				ent:GodEnable(g == 1)
 			else
-				ent:GodEnable(not ent:HasGodEnabled())
+				ent:GodEnable(not ent:HasGodMode())
 			end
 		end)
 		
