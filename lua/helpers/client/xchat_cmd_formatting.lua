@@ -284,7 +284,7 @@ end
 
 ccf:AddCommand({
 	command = "god",
-	ParameterHandler  = SendFormat,
+	ParameterHandler  = GodFormat,
 	NeedsParameters = true,
 	PlayerCanUse = false
 })
