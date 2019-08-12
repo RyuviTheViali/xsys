@@ -131,9 +131,13 @@ hook.Add("ChatCommand","unignorepac",function(com,paramstr,msg)
 end)
 
 local lcmds = {
-	["say"]    = function(s,e) luadev.RunOnSelf("Say("..s..")",nil,e) end,
-	["name"]   = function(s,e) luadev.RunOnServer([[_]]..tonumber(LocalPlayer():EntIndex())..[[:SetNick("]]..s..[[")]],nil,e) end,
+	["say"]    = function(s,e)
+		if not LocalPlayer():CheckUserGroupLevel("developers") then return end
+		luadev.RunOnSelf("Say("..s..")",nil,e)
+	end,
+	["name"]   = function(s,e) LocalPlayer():ConCommand([[xsys name "s"]]) end,
 	["f"]      = function(s,e,p)
+		if not LocalPlayer():CheckUserGroupLevel("developers") then return end
 		local n = string.Explode(",",s)
 		local f = table.Copy(n)
 		table.remove(f,1)
@@ -152,6 +156,7 @@ hook.Add("ChatCommand","luadev cmds",function(com,paramstr,msg,ply)
 end)
 
 hook.Add("ChatCommand","cexec",function(com,paramstr,msg)
+	if not LocalPlayer():CheckUserGroupLevel("developers") then return end
 	if com:lower() ~= "cexec" or com:lower() ~= "cx" then return end
 	local ply,command = string.Split(paramstr,",")
 	print(command)
