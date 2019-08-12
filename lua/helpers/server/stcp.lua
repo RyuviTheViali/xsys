@@ -128,7 +128,7 @@ end
 
 stcp.Think = function()
 	if not stcp.sv then return end
-	local newclient,err = stcp.sv:accept()
+	local newclient,err = stcp.sv and stcp.sv.accept and stcp.sv:accept() or stcp.StartServer("0.0.0.0",GetHostName():lower():find("private") ~= nil and 27038 or 35001)
 	if not newclient and err == "closed" then error("Server socket closed") end
 	if not newclient and err ~= "timeout" then error("FATAL socket error: "..tostring(err)) end
 	if newclient then
