@@ -175,26 +175,26 @@ do --Rank System
 	xsys.Ranks = xsys.Ranks or {}
 	
 	local ranklist = {
-		["players"] = 1,
+		["players"]   = 1,
 		["designers"] = 2,
 		["guardians"] = 3,
 		["overwatch"] = 4,
-		["owners"] = math.huge
+		["owners"]    = math.huge
 	}
 	local rankaliases = {
-		["users"] = "players",
-		["none"] = "players",
-		["devs"] = "designers",	
-		["editors"] = "designers",
-		["creators"] = "owners",
-		["superadmins"] = "owners",
-		["owner"] = "owners",
-		["dev"] = "designers",
-		["designer"] = "designers",
-		["mods"] = "guardians",
-		["moderators"] = "guardians",
-		["admins"] = "overwatch",
-		["administrators"] = "overwatch"
+		["users"]          = "players",
+		["none"]           = "players",
+		["devs"]           = "designers",	
+		["editors"]        = "designers",
+		["designer"]       = "designers",
+		["dev"]            = "designers",
+		["mods"]           = "guardians",
+		["moderators"]     = "guardians",
+		["admins"]         = "overwatch",
+		["administrators"] = "overwatch",
+		["creators"]       = "owners",
+		["superadmins"]    = "owners",
+		["owner"]          = "owners"
 	}
 
 	for k,v in pairs(ranklist) do
@@ -243,15 +243,32 @@ do --Rank System
 	end
 	
 	function pm:GetUserGroup()
-		if self:ShouldHideAdmins() then return "players" end
+		if self:ShouldHideModerators() then 
+			if self:CheckUserGroupLevel("guardians") then
+				return "players"
+			end
+		end
+
+		if self:ShouldHideAdmins() then 
+			if self:CheckUserGroupLevel("overwatch") then
+				return "players"
+			end
+		end
+
+		if self:ShouldHideSuperAdmins() then 
+			if self:CheckUserGroupLevel("owners") then
+				return "players"
+			end
+		end
+
 		return self:GetNetworkedString("Rank"):lower()
 	end
 	
-	team.SetUp(1,"players",Color(64,64,64))
-	team.SetUp(2,"designers",Color(51,51,128))
+	team.SetUp(1,"players"  ,Color(64 ,64 ,64 ))
+	team.SetUp(2,"designers",Color(51 ,51 ,128))
 	team.SetUp(3,"guardians",Color(128,170,255))
-	team.SetUp(4,"overwatch",Color(64,128,255))
-	team.SetUp(5,"owners",Color(180,100,255))
+	team.SetUp(4,"overwatch",Color(64 ,128,255))
+	team.SetUp(5,"owners"   ,Color(180,100,255))
 	
 	if SERVER then
 		local nostore = {
