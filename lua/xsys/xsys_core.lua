@@ -196,6 +196,10 @@ do --Rank System
 		["admins"] = "overwatch",
 		["administrators"] = "overwatch"
 	}
+
+	for k,v in pairs(ranklist) do
+		xsys.Ranks[k:sub(1,1):upper()..k:sub(2,nil)] = v
+	end
 	
 	local pm = FindMetaTable("Player")
 	function pm:CheckUserGroupLevel(name)
