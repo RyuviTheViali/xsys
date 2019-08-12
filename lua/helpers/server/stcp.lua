@@ -127,7 +127,7 @@ stcp.Process = function(client,db)
 end
 
 stcp.Think = function()
-	if not stcp.sv then return end
+	if stcp.sv == nil then return end
 	local newclient,err = stcp.sv and stcp.sv.accept and stcp.sv:accept() or unpack{nil,nil} 
 	if not newclient and not err then return end
 	if not newclient and err == "closed" then error("Server socket closed") end
@@ -164,4 +164,7 @@ hook.Add("stcpcl","getcmdsuccess",function(client,data)
 	end
 end)
 
-stcp.StartServer("0.0.0.0",GetHostName():lower():find("private") ~= nil and 27038 or 35001)
+timer.Simple(1,function()
+	stcp.Msg("Started connection server")
+	stcp.StartServer("0.0.0.0",GetHostName():lower():find("private") ~= nil and 27038 or 35001)
+end)
