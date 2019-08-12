@@ -127,30 +127,34 @@ stcp.Process = function(client,db)
 end
 
 stcp.Think = function()
-	if not stcp.sv then stcp.StartServer("0.0.0.0",GetHostName():lower():find("private") ~= nil and 27038 or 35001) return end
-	local newclient,err = stcp.sv.accept and stcp.sv:accept() or unpack{nil,nil} 
-	if not newclient and not err then return end
-	if not newclient and err == "closed" then error("Server socket closed") end
-	if not newclient and err ~= "timeout" then error("FATAL socket error: "..tostring(err)) end
-	if newclient then
-		stcp.Msg("Added new client")
-		newclient:settimeout(0)
-		local ip,port = newclient:getpeername()
-		assert(ip ~= nil)
-		assert(port ~= nil)
-		stcp.Msg("New connection",newclient,"from",ip,port)
-		local clid = #stcp.Clients+1
-		assert(not stcp.Clients[clid])
-		stcp.Clients[clid] = CL{clid=clid,socket=newclient,buff={},ip=ip,port=port,new=true}
-	end
-	for clid,db in pairs(stcp.Clients) do
-		if stcp.Process(db.socket,db) == true then
-			stcp.Msg("Closing socket",clid,db.socket,db.ip)
-			db.socket:close()
-			stcp.Clients[clid] = nil
+	xpcall(function()
+		if not stcp.sv then return end
+		local newclient,err = stcp.sv.accept and stcp.sv:accept() or unpack{nil,nil} 
+		if not newclient and not err then return end
+		if not newclient and err == "closed" then error("Server socket closed") end
+		if not newclient and err ~= "timeout" then error("FATAL socket error: "..tostring(err)) end
+		if newclient then
+			stcp.Msg("Added new client")
+			newclient:settimeout(0)
+			local ip,port = newclient:getpeername()
+			assert(ip ~= nil)
+			assert(port ~= nil)
+			stcp.Msg("New connection",newclient,"from",ip,port)
+			local clid = #stcp.Clients+1
+			assert(not stcp.Clients[clid])
+			stcp.Clients[clid] = CL{clid=clid,socket=newclient,buff={},ip=ip,port=port,new=true}
 		end
-		if db.new then db.new = false end
-	end
+		for clid,db in pairs(stcp.Clients) do
+			if stcp.Process(db.socket,db) == true then
+				stcp.Msg("Closing socket",clid,db.socket,db.ip)
+				db.socket:close()
+				stcp.Clients[clid] = nil
+			end
+			if db.new then db.new = false end
+		end
+	end,function()
+		stcp.StartServer("0.0.0.0",GetHostName():lower():find("private") ~= nil and 27038 or 35001)
+	end)
 end
 hook.Add("Think","STCP-Think",stcp.Think)
 
