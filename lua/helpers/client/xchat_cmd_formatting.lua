@@ -275,10 +275,10 @@ ccf:AddCommand({
 
 local function GodFormat(player,input,target)
 	if target and IsValid(target) then
-		local god = target:HasGodMode()
-		return true,{" has ",green,god and "godded" or "ungodded",grey,target:Nick()}
+		local god = ent:GetInfoNum("cl_godmode",0) == 1
+		return true,{" has ",green,(god and "godded " or "ungodded ")..target:Nick()}
 	else
-		return true,{" has ",green,god and "godded" or "ungodded",grey,"themselves"}
+		return true,{" has ",green,(god and "godded " or "ungodded ").."themselves"}
 	end
 end
 
@@ -286,5 +286,6 @@ ccf:AddCommand({
 	command = "god",
 	ParameterHandler  = GodFormat,
 	NeedsParameters = true,
+	NoTargetIsSelf = true,
 	PlayerCanUse = false
 })
