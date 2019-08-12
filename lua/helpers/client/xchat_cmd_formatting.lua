@@ -228,10 +228,10 @@ local function RestrictionParameters(p,i,t)
 	if t and IsValid(t) then
 		local isres = p.Unrestricted
 		if isres ~= nil then
-			return true,{" has ",green,(not isres) and "enabled" or "disabled","test",grey," restrictions for ",t == p and "themselves" or t,grey}
+			return true,{" has ",green,((not isres) and "enabled" or "disabled").." restrictions for "..(t == p and "themselves" or t),grey}
 		end
 	else
-		return true,{" has ",green,(not isres) and "enabled" or "disabled","test",grey," restrictions for themselves",grey}
+		return true,{" has ",green,((not isres) and "enabled" or "disabled").." restrictions for themselves",grey}
 	end
 end
 
