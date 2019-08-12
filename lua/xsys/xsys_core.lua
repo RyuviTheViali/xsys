@@ -244,22 +244,8 @@ do --Rank System
 	end
 	
 	function pm:GetUserGroup()
-		if self:ShouldHideModerators() then 
-			if self:CheckUserGroupLevel("guardians") then
-				return "players"
-			end
-		end
-
-		if self:ShouldHideAdmins() then 
-			if self:CheckUserGroupLevel("overwatch") then
-				return "players"
-			end
-		end
-
-		if self:ShouldHideSuperAdmins() then 
-			if self:CheckUserGroupLevel("owners") then
-				return "players"
-			end
+		if self:ShouldHideModerators() or self:ShouldHideAdmins() or self:ShouldHideSuperAdmins() then 
+			return "players"
 		end
 
 		return self:GetNetworkedString("Rank"):lower()
