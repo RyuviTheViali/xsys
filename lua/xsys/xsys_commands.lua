@@ -276,11 +276,8 @@ do
 		
 		xsys.AddCommand("god",function(ply,txt,target,g)
 			local ent = ply:CheckUserGroupLevel("designers") and target and easylua.FindEntity(target) or ply
-			if g and g ~= "" then
-				ent:GodEnable(g == 1)
-			else
-				ent:GodEnable(not ent:HasGodMode())
-			end
+			local newgm = tonumber(target) or (tonumber(g) or (ent:GetInfoNum("cl_godmode",0) == 1 and 0 or 1))
+			newgm = math.floor(math.Clamp(newgm,0,1))
 		end)
 		
 		xsys.AddCommand({"name","nick","setnick","setname","nickname"},function(ply,txt)
