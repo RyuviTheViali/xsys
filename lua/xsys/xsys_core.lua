@@ -302,7 +302,7 @@ do --Rank System
 				u[name][self:SteamID()] = self:Nick():gsub("%A","") or "N/A"
 				for k,v in pairs(xsys.Ranks) do
 					if k:lower() == name then continue end
-					if u[k:lower()][self:SteamID()] then
+					if u[k:lower()] and u[k:lower()][self:SteamID()] then
 						u[k:lower()][self:SteamID()] = nil
 					end
 				end
