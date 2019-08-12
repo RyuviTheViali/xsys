@@ -239,12 +239,16 @@ hook.Add("OnChatSyntaxParse","syntax",function(ply,message,tm,d)
 	end
 	if not code then normal = true end
 	if not normal then
-		if cmd == "cmd" then
-			chat.AddText(team.GetColor(ply:Team()),ply:Nick(),grey,"@",color or colors[cmd] or "",method or methods[cmd] or "",grey,grey,": ",Color(200,200,200),code)
-		elseif cmd == "f" or cmd == "fire" then
-			chat.AddText(team.GetColor(ply:Team()),ply:Nick(),grey,"@",color or colors[cmd] or "",method or methods[cmd] or "",grey,methods2[cmd] and "("..(methods2[cmd])..")" or "",grey,": ",Color(200,200,200),code)
+		if ply:CanRunLua() then
+			if cmd == "cmd" then
+				chat.AddText(team.GetColor(ply:Team()),ply:Nick(),grey,"@",color or colors[cmd] or "",method or methods[cmd] or "",grey,grey,": ",Color(200,200,200),code)
+			elseif cmd == "f" or cmd == "fire" then
+				chat.AddText(team.GetColor(ply:Team()),ply:Nick(),grey,"@",color or colors[cmd] or "",method or methods[cmd] or "",grey,methods2[cmd] and "("..(methods2[cmd])..")" or "",grey,": ",Color(200,200,200),code)
+			else
+				chat.AddText(team.GetColor(ply:Team()),ply:Nick(),grey,"@",color or colors[cmd] or "",method or methods[cmd] or "",grey,methods2[cmd] and "("..(methods2[cmd])..")" or "",grey,": ",unpack(syntax.process(code)))
+			end
 		else
-			chat.AddText(team.GetColor(ply:Team()),ply:Nick(),grey,"@",color or colors[cmd] or "",method or methods[cmd] or "",grey,methods2[cmd] and "("..(methods2[cmd])..")" or "",grey,": ",unpack(syntax.process(code)))
+			chat.AddText(team.GetColor(ply:Team()),ply:Nick(),grey,"@",color or colors[cmd] or "",method or methods[cmd] or "",Color(200,40,40),"(Access Denied)",grey,grey,": ",Color(200,200,200),code)
 		end
 	else
 		local tod = {}
