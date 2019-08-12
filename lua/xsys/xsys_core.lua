@@ -194,6 +194,7 @@ do --Rank System
 		["administrators"] = "overwatch",
 		["creators"]       = "owners",
 		["superadmins"]    = "owners",
+		["superadmin"]     = "owners",
 		["owner"]          = "owners"
 	}
 
