@@ -276,16 +276,11 @@ do
 		
 		xsys.AddCommand("god",function(ply,txt,target,g)
 			local ent = ply:CheckUserGroupLevel("designers") and target and easylua.FindEntity(target) or ply
-			local newgm = tonumber(target) or (tonumber(g) or (ent:GetInfoNum("cl_godmode",0) == 1 and 0 or 1))
-			newgm = math.floor(math.Clamp(newgm,0,1))
-			ent:SendLua([[
-				LocalPlayer():ConCommand('cl_godmode '.."]]..newgm..[[")
-				if (]]..newgm..[[) == 1 then
-					chat.AddText("God mode enabled.")
-				elseif (]]..newgm..[[) == 0 then
-					chat.AddText("God mode disabled.")
-				end
-			]])
+			if g and g ~= "" then
+				ent:GodEnable(g == 1)
+			else
+				ent:GodEnable(not ent:HasGodEnabled())
+			end
 		end)
 		
 		xsys.AddCommand({"name","nick","setnick","setname","nickname"},function(ply,txt)
