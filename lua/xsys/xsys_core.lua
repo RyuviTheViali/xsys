@@ -177,6 +177,8 @@ do --Rank System
 	local ranklist = {
 		["players"] = 1,
 		["designers"] = 2,
+		["guardians"] = 3,
+		["overwatch"] = 4,
 		["owners"] = math.huge
 	}
 	local rankaliases = {
@@ -188,7 +190,11 @@ do --Rank System
 		["superadmins"] = "owners",
 		["owner"] = "owners",
 		["dev"] = "designers",
-		["designer"] = "designers"
+		["designer"] = "designers",
+		["mods"] = "guardians",
+		["moderators"] = "guardians",
+		["admins"] = "overwatch",
+		["administrators"] = "overwatch"
 	}
 	
 	local pm = FindMetaTable("Player")
@@ -198,19 +204,32 @@ do --Rank System
 		local a,b = ranklist[g],ranklist[name]
 		return a and b and a >= b
 	end
+
+	function pm:ShouldHideModerators()
+		return self.HideModerators or false
+	end
 	
 	function pm:ShouldHideAdmins()
 		return self.HideAdmins or false
 	end
+
+	function pm:ShouldHideSuperAdmins()
+		return self.HideSuperAdmins or false
+	end
+
+	function pm:IsModerator()
+		if self:ShouldHideModerators() then return false end
+		return self:CheckUserGroupLevel("guardians")
+	end
 	
 	function pm:IsAdmin()
 		if self:ShouldHideAdmins() then return false end
-		return self:CheckUserGroupLevel("designers")
+		return self:CheckUserGroupLevel("overwatch")
 	end
 	
 	function pm:IsSuperAdmin()
-		if self:ShouldHideAdmins() then return false end
-		return self:CheckUserGroupLevel("designers")
+		if self:ShouldHideSuperAdmins() then return false end
+		return self:CheckUserGroupLevel("owners")
 	end
 	
 	function pm:IsUserGroup(g)
@@ -224,13 +243,14 @@ do --Rank System
 		return self:GetNetworkedString("Rank"):lower()
 	end
 	
-	team.SetUp(1,"players",Color(32,32,80))
-	team.SetUp(2,"designers",Color(128,170,255))
-	team.SetUp(3,"owners",Color(64,128,255))
+	team.SetUp(1,"players",Color(64,64,64))
+	team.SetUp(2,"designers",Color(51,51,128))
+	team.SetUp(3,"guardians",Color(128,170,255))
+	team.SetUp(4,"overwatch",Color(64,128,255))
+	team.SetUp(5,"owners",Color(180,100,255))
 	
 	if SERVER then
 		local nostore = {
-			"moderators",
 			"players",
 			"users"
 		}
