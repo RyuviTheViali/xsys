@@ -321,7 +321,7 @@ do
 			if ent:IsPlayer() then
 				if cleanup and cleanup.CC_Cleanup then cleanup.CC_Cleanup(ent,"gmod_cleanup",{}) end
 				local rsn = reason or "*kicked*"
-				xsys.Msg("kick",tostring(ply).. " kicked "..tostring(ent).." for "..rsn)
+				xsys.Message("kick",tostring(ply).. " kicked "..tostring(ent).." for "..rsn)
 				hook.Run("XsysTargetCommand",ply,"kick",ent,rsn)
 				return ent:Kick(rsn or "*kicked*")
 			end
@@ -339,7 +339,7 @@ do
 		end,"overwatch")
 
 		xsys.AddCommand("baninfo",function(ply,line,target)
-		
+
 		end)]] --TODO, NEED TO WRITE BAN SYSTEM
 		
 		local function dow(v,t)
