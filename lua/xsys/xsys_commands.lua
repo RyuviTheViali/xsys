@@ -340,6 +340,43 @@ do
 		xsys.AddCommand("baninfo",function(ply,line,target)
 
 		end)]] --TODO, NEED TO WRITE BAN SYSTEM
+
+		xsys.AddCommand("strip",function(ply,line,target,weapon)
+			local ent = easylua.FindEntity(target)
+			if not IsValid(ent) or not ent:IsPlayer() then ent = ply end
+			if weapon then
+				ent:StripWeapon(weapon)
+			else
+				for k,v in pairs(ent:GetWeapons()) do
+					if v:GetClass() == "none" then continue end
+					v:StripWeapon(v:GetClass())
+				end
+			end
+		end,"guardians")
+
+		xsys.AddCommand({"drop","disconnect"},function(ply,line,target)
+			local ent = easylua.FindEntity(target)
+			if not ent then return false,xsys.NoTarget(target) end
+			ent:ConCommand("disconnect")
+		end,"guardians")
+
+		xsys.AddCommand({"clean","cleanup"},function(ply,line,target)
+			local ent = easylua.FindEntity(target)
+			if not IsValid(ent) or not ent:IsPlayer() then ent = ply end
+			if cleanup and cleanup.CC_Cleanup then 
+				cleanup.CC_Cleanup(ent,"gmod_cleanup",{})
+			end
+		end,"guardians")
+
+		xsys.AddCommand("freeze",function(ply,line,target,freeze)
+			local ent = easylua.FindEntity(target)
+			if not ent then return false,xsys.NoTarget(target) end
+			if freeze then
+				ent:Freeze(freeze == "1")
+			else
+				ent:Freeze(not ent:IsFrozen())
+			end
+		end,"designers")
 		
 		local function dow(v,t)
 			if not v:IsValid() then return end
