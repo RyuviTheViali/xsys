@@ -175,19 +175,20 @@ do --Rank System
 	xsys.Ranks = xsys.Ranks or {}
 	
 	local ranklist = {
-		["players"]   = 1,
-		["designers"] = 2,
-		["guardians"] = 3,
-		["overwatch"] = 4,
-		["owners"]    = math.huge
+		["players"]    = 1,
+		["designers"]  = 2,
+		["developers"] = 3,
+		["guardians"]  = 4,
+		["overwatch"]  = 5,
+		["owners"]     = math.huge
 	}
 	local rankaliases = {
 		["users"]          = "players",
-		["none"]           = "players",
-		["devs"]           = "designers",	
+		["none"]           = "players",	
 		["editors"]        = "designers",
 		["designer"]       = "designers",
-		["dev"]            = "designers",
+		["devs"]           = "developers",
+		["dev"]            = "developers",
 		["mods"]           = "guardians",
 		["moderators"]     = "guardians",
 		["admins"]         = "overwatch",
@@ -251,11 +252,12 @@ do --Rank System
 		return self:GetNetworkedString("Rank"):lower()
 	end
 	
-	team.SetUp(1,"players"  ,Color(96 ,96 ,96 ))
-	team.SetUp(2,"designers",Color(90 ,90 ,190))
-	team.SetUp(3,"guardians",Color(128,170,255))
-	team.SetUp(4,"overwatch",Color(64 ,128,255))
-	team.SetUp(5,"owners"   ,Color(180,100,255))
+	team.SetUp(1,"players"   ,Color(96 ,96 ,96 ))
+	team.SetUp(2,"designers" ,Color(90 ,90 ,190))
+	team.SetUp(3,"developers",Color(100,200,100))
+	team.SetUp(4,"guardians" ,Color(128,170,255))
+	team.SetUp(5,"overwatch" ,Color(64 ,128,255))
+	team.SetUp(6,"owners"    ,Color(180,100,255))
 	
 	if SERVER then
 		local nostore = {
