@@ -223,6 +223,10 @@ do --Rank System
 		return self.HideSuperAdmins or false
 	end
 
+	function pm:CanRunLua()
+		return self:CheckUserGroupLevel("developers")
+	end
+
 	function pm:IsModerator()
 		if self:ShouldHideModerators() then return false end
 		return self:CheckUserGroupLevel("guardians")
