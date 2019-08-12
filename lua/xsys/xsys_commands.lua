@@ -349,7 +349,7 @@ do
 			else
 				for k,v in pairs(ent:GetWeapons()) do
 					if v:GetClass() == "none" then continue end
-					v:StripWeapon(v:GetClass())
+					ent:StripWeapon(v:GetClass())
 				end
 			end
 		end,"guardians")
