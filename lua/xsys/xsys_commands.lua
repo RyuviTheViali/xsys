@@ -297,6 +297,27 @@ do
 				end
 			end)
 		end)
+
+		xsys.AddCommand("maps",function(ply,txt,map)
+			if map and file.Exists("maps/"..map..".bsp","GAME") then
+				time = tonumber(time) or 10
+				game.ConsoleCommand("changelevel "..map.."\n")
+			else
+				return false, "map not found"
+			end
+		end)
+
+		xsys.AddCommand("maps",function(ply,txt)
+			local files = file.Find("maps/"..(txt or ""):gsub("[^%w_]", "").."*.bsp","GAME")
+			for k,v in pairs(files) do
+				ply:ChatPrint(v)
+			end
+			
+			local msg = "Total maps found: "..#files
+			
+			ply:ChatPrint(("="):rep(msg:len()))
+			ply:ChatPrint(msg)
+		end)
 		
 		xsys.AddCommand({"retry","rejoin"},function(ply,txt,target)
 			target = ply:CheckUserGroupLevel("designers") and target and easylua.FindEntity(target) or ply
