@@ -298,12 +298,13 @@ do
 			end)
 		end)
 
-		xsys.AddCommand("maps",function(ply,txt,map)
+		xsys.AddCommand("map",function(ply,txt,map)
 			if map and file.Exists("maps/"..map..".bsp","GAME") then
-				time = tonumber(time) or 10
 				game.ConsoleCommand("changelevel "..map.."\n")
 			else
-				return false, "map not found"
+				if all then
+					all:ChatPrint("[XSys] Map \""..map.."\" doesn't exist")
+				end
 			end
 		end)
 
