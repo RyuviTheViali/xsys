@@ -329,7 +329,7 @@ do
 		xsys.AddCommand("rehash",function(ply,txt,server,repo)
 			if not repo then return false,"All repos at once not supported yet" end
 			stcp.SendCmd({"rehash",repo},{"git -C /home/steam/srcds/xenora"..server.."/garrysmod/addons/"..repo.." pull"},"gmod.xenora.net",27039)
-		end,"designers")
+		end,"developers")
 
 		xsys.AddCommand("kick",function(ply,line,target,reason)
 			local ent = easylua.FindEntity(target)
