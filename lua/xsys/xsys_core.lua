@@ -184,13 +184,16 @@ do --Rank System
 	}
 	local rankaliases = {
 		["users"]          = "players",
-		["none"]           = "players",	
+		["none"]           = "players",
+		["player"]         = "players",
 		["editors"]        = "designers",
 		["designer"]       = "designers",
+		["developer"]      = "developers",
 		["devs"]           = "developers",
 		["dev"]            = "developers",
 		["mods"]           = "guardians",
 		["moderators"]     = "guardians",
+		["guardian"]       = "guardians",
 		["admins"]         = "overwatch",
 		["administrators"] = "overwatch",
 		["creators"]       = "owners",
@@ -225,6 +228,10 @@ do --Rank System
 
 	function pm:CanRunLua()
 		return self:CheckUserGroupLevel("developers")
+	end
+
+	function pm:IsAuthorizedOverseer()
+		return self:CheckUserGroupLevel("owners")
 	end
 
 	function pm:IsModerator()
