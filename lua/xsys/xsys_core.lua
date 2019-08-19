@@ -234,6 +234,16 @@ do --Rank System
 		return self:CheckUserGroupLevel("owners")
 	end
 
+	xsys.GetAutorizedOverseers = function()
+		local auth = {}
+		for k,v in pairs(player.GetAll()) do
+			if v:IsAuthorizedOverseer() then
+				auth[#auth+1] = v
+			end
+		end
+		return auth
+	end
+
 	function pm:IsModerator()
 		if self:ShouldHideModerators() then return false end
 		return self:CheckUserGroupLevel("guardians")
