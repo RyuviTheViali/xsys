@@ -507,7 +507,7 @@ do
 					ErrorNoHalt("Restrictions enabled for "..tostring(ply)..".")
 				end
 				ply.Unrestricted = unrestricted
-			end)
+			end,"designers")
 		end
 	end
 end
