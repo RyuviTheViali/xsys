@@ -282,6 +282,15 @@ do
 			local newgm = tonumber(target) or (tonumber(g) or (ent:GetInfoNum("cl_godmode",0) == 1 and 0 or 1))
 			ent:ConCommand("cl_godmode "..newgm)
 		end)
+
+		xsys.AddCommand("gag",function(ply,txt,target,g)
+			local ent = ply:CheckUserGroupLevel("designers") and target and easylua.FindEntity(target) or ply
+			if not ply:CheckUserGroupLevel(ent:GetUserGroup()) then
+				ent = ply
+			end
+			local newgm = tonumber(target) or (tonumber(g) or (ent:GetNWBool("xsys_gagged") and 0 or 1))
+			ent:SetNWBool("xsys_gagged",newgm == 1)
+		end,"designers")
 		
 		xsys.AddCommand({"name","nick","setnick","setname","nickname"},function(ply,txt)
 			if txt then
