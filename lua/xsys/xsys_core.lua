@@ -180,7 +180,7 @@ do --Rank System
 		["developers"] = 3,
 		["guardians"]  = 4,
 		["overwatch"]  = 5,
-		["owners"]     = math.huge
+		["overseers"]  = math.huge
 	}
 	local rankaliases = {
 		["users"]          = "players",
@@ -196,10 +196,12 @@ do --Rank System
 		["guardian"]       = "guardians",
 		["admins"]         = "overwatch",
 		["administrators"] = "overwatch",
-		["creators"]       = "owners",
-		["superadmins"]    = "owners",
-		["superadmin"]     = "owners",
-		["owner"]          = "owners"
+		["creators"]       = "overseers",
+		["superadmins"]    = "overseers",
+		["superadmin"]     = "overseers",
+		["overseer"]       = "overseers",
+		["owners"]         = "overseers",
+		["owner"]          = "overseers"
 	}
 
 	for k,v in pairs(ranklist) do
@@ -231,7 +233,7 @@ do --Rank System
 	end
 
 	function pm:IsAuthorizedOverseer()
-		return self:CheckUserGroupLevel("owners")
+		return self:CheckUserGroupLevel("overseers")
 	end
 
 	xsys.GetAuthorizedOverseers = function()
@@ -256,7 +258,7 @@ do --Rank System
 	
 	function pm:IsSuperAdmin()
 		if self:ShouldHideSuperAdmins() then return false end
-		return self:CheckUserGroupLevel("owners")
+		return self:CheckUserGroupLevel("overseers")
 	end
 	
 	function pm:IsUserGroup(g)
@@ -278,7 +280,7 @@ do --Rank System
 	team.SetUp(3,"developers",Color(100,200,100))
 	team.SetUp(4,"guardians" ,Color(128,170,255))
 	team.SetUp(5,"overwatch" ,Color(64 ,128,255))
-	team.SetUp(6,"owners"    ,Color(150,100,255))
+	team.SetUp(6,"overseers" ,Color(150,100,255))
 	
 	if SERVER then
 		local nostore = {
@@ -309,6 +311,9 @@ do --Rank System
 		function pm:SetUserGroup(name,force)
 			name = name:Trim()
 			name = rankaliases[name] or name
+			if ranklist[name] == math.huge then -- overseers are naturally unrestrcted
+				self.Unrestricted = true
+			end
 			self:SetTeam(team.GetIDByName(name))
 			self:SetNetworkedString("Rank",name)
 			if force == false or #name == 0 then return end
@@ -353,7 +358,7 @@ do --Rank System
 		hook.Add("PlayerSpawn","XsysPlayerAuthentication",function(ply)
 			ply:SetUserGroup("players")
 			if game.SinglePlayer() or ply:IsListenServerHost() then
-				ply:SetUserGroup("owners")
+				ply:SetUserGroup("overseers")
 				return
 			end
 			local time = file.Time(UserFile,"DATA")
