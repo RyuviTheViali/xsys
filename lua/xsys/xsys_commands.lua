@@ -393,11 +393,17 @@ do
 		end,"guardians")
 
 		xsys.AddCommand("baninfo",function(ply,line,target)
-			local ent = easylua.FindEntity(target)
-			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
 			if not xsys.xban then return false,"XBan not initialized" end
 
-			local ban = xsys.xban.GetBan(ent)
+			local ent = easylua.FindEntity(target)
+			local ban = nil
+
+			if type(target) == "string" and target:find("STEAM_") then
+				ban = xsys.xban.GetBan(target)
+			else
+				if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+				ban = xsys.xban.GetBan(ent)
+			end
 
 			if not ban then
 				all:ChatPrint("[XBan] No ban info on record for: "..ent:Nick())
