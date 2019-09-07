@@ -390,7 +390,7 @@ do
 				if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
 				ent:Unban(ply,reason)
 			end
-		end,"overwatch")
+		end,"guardians")
 
 		xsys.AddCommand("baninfo",function(ply,line,target)
 			local ent = easylua.FindEntity(target)
