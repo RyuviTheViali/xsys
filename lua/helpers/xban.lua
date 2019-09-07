@@ -610,7 +610,7 @@ if SERVER then
 	hook.Add("PhysgunPickup"     ,xsys.xban.RestrictionTag,function(ply,ent)
 		local cantar = false
 		if ply:IsPlayer() and ent:IsPlayer() then
-			if ply:CheckUserGroupLevel(ent:GetUserGroup) then
+			if ply:CheckUserGroupLevel(ent:GetUserGroup()) then
 				cantar = true
 			end
 		return cantar and xsys.xban.IsNotRestricted(ply)
