@@ -623,9 +623,9 @@ if SERVER then
 		end
 	end)
 	
-	hook.Add("PlayerGiveSWEP"    ,xsys.xban.RestrictionTag,xsys.xban.IsRestricted)
-	hook.Add("PlayerSpawnRagdoll",xsys.xban.RestrictionTag,xsys.xban.IsRestricted)
-	hook.Add("CanTool"           ,xsys.xban.RestrictionTag,xsys.xban.IsRestricted)
+	hook.Add("PlayerGiveSWEP"    ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
+	hook.Add("PlayerSpawnRagdoll",xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
+	hook.Add("CanTool"           ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
 	hook.Add("PlayerDeath"       ,xsys.xban.RestrictionTag,function(ply)
 		if xsys.xban.IsRestricted(ply) then
 			local pos = ply:GetPos()
