@@ -598,9 +598,27 @@ if SERVER then
 		end
 	end)
 	
-	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(_,ply)   return xsys.xban.IsNotRestricted(ply) end)
-	hook.Add("PhysgunPickup"     ,xsys.xban.RestrictionTag,function(ply,ent) return xsys.xban.IsNotRestricted(ply) end)
-	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(_,ply)   return xsys.xban.IsNotRestricted(ply) end)
+	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(wep,ply)
+		--[[local cantar = false
+		if ply:IsPlayer() and ent:IsPlayer() then
+			if ply:CheckUserGroupLevel(ent:GetUserGroup) then
+				cantar = true
+			end]]
+		return xsys.xban.IsNotRestricted(ply)
+	end)
+
+	hook.Add("PhysgunPickup"     ,xsys.xban.RestrictionTag,function(ply,ent)
+		local cantar = false
+		if ply:IsPlayer() and ent:IsPlayer() then
+			if ply:CheckUserGroupLevel(ent:GetUserGroup) then
+				cantar = true
+			end
+		return cantar and xsys.xban.IsNotRestricted(ply)
+	end)
+
+	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(wep,ply)
+		return xsys.xban.IsNotRestricted(ply)
+	end)
 	hook.Add("PlayerSpawnEffect" ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
 	hook.Add("PlayerSpawnVehicle",xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
 	hook.Add("PlayerSpawnNPC"    ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
@@ -625,7 +643,7 @@ if SERVER then
 	
 	hook.Add("PlayerGiveSWEP"    ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
 	hook.Add("PlayerSpawnRagdoll",xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
-	hook.Add("CanTool"           ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
+	hook.Add("CanTool"           ,xsys.xban.RestrictionTag,function(ply,trace,tool) xsys.xban.IsNotRestricted(ply) end)
 	hook.Add("PlayerDeath"       ,xsys.xban.RestrictionTag,function(ply)
 		if xsys.xban.IsRestricted(ply) then
 			local pos = ply:GetPos()
