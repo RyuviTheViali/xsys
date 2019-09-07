@@ -598,9 +598,9 @@ if SERVER then
 		end
 	end)
 	
-	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(_,ply)   return xsys.xban.IsRestricted(ply) end)
-	hook.Add("PhysgunPickup"     ,xsys.xban.RestrictionTag,function(ply,ent) return xsys.xban.IsRestricted(ply) end)
-	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(_,ply)   return xsys.xban.IsRestricted(ply) end)
+	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(_,ply)   return xsys.xban.IsNotRestricted(ply) end)
+	hook.Add("PhysgunPickup"     ,xsys.xban.RestrictionTag,function(ply,ent) return xsys.xban.IsNotRestricted(ply) end)
+	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(_,ply)   return xsys.xban.IsNotRestricted(ply) end)
 	hook.Add("PlayerSpawnEffect" ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
 	hook.Add("PlayerSpawnVehicle",xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
 	hook.Add("PlayerSpawnNPC"    ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
