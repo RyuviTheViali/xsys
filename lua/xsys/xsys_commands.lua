@@ -408,7 +408,11 @@ do
 			if not ban then
 				all:ChatPrint("[XBan] No ban info on record for: "..ent:Nick())
 			else
-				all:ChatPrint("[XBan] Ban info for player: "..ent:Nick().." ["..ent:SteamID().."]:")
+				if type(target) == "string" and target:find("STEAM_") then
+					all:ChatPrint("[XBan] Ban info for player: "..ban.NickName.." ["..target.."]:")
+				else
+					all:ChatPrint("[XBan] Ban info for player: "..ent:Nick().." ["..ent:SteamID().."]:")
+				end
 
 				all:ChatPrint("\tName: "..ban.NickName.." / "..ban.Name)
 				all:ChatPrint("\tSteamID64: "..ban.SteamID64)
