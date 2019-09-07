@@ -613,6 +613,10 @@ if SERVER then
 			if ply:CheckUserGroupLevel(ent:GetUserGroup()) then
 				cantar = true
 			end
+		elseif not ent:IsPlayer() and ent.CPPIGetOwner and ent:CPPIGetOwner():IsValid() and ent:CPPIGetOwner():IsPlayer() then
+			if ply:CheckUserGroupLevel(ent:CPPIGetOwner():GetUserGroup()) then
+				cantar = true
+			end
 		end
 		return cantar and xsys.xban.IsNotRestricted(ply)
 	end)
