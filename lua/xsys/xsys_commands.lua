@@ -354,30 +354,42 @@ do
 		end,"guardians")
 		
 		xsys.AddCommand("ban",function(ply,line,target,length,reason)
-			local ent = easylua.FindEntity(target)
-			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
 			if not xsys.xban then return false,"XBan not initialized" end
 
-			ent:Ban(ply,length ~= "" and tonumber(length) or nil,false,reason)
+			local ent = easylua.FindEntity(target)
 
+			if type(target) == "string" and target:find("STEAM_") then
+				xsys.xban.BanID(target,ply,length ~= "" and tonumber(length) or nil,false,reason)
+			else
+				if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+				ent:Ban(ply,length ~= "" and tonumber(length) or nil,false,reason)
+			end
 		end,"guardians")
 
 		xsys.AddCommand("hardban",function(ply,line,target,length,reason)
-			local ent = easylua.FindEntity(target)
-			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
 			if not xsys.xban then return false,"XBan not initialized" end
 
-			ent:Ban(ply,length ~= "" and tonumber(length) or nil,true,reason)
+			local ent = easylua.FindEntity(target)
 
+			if type(target) == "string" and target:find("STEAM_") then
+				xsys.xban.BanID(target,ply,length ~= "" and tonumber(length) or nil,true,reason)
+			else
+				if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+				ent:Ban(ply,length ~= "" and tonumber(length) or nil,true,reason)
+			end
 		end,"overwatch")
 
 		xsys.AddCommand("unban",function(ply,line,target,reason)
-			local ent = easylua.FindEntity(target)
-			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
 			if not xsys.xban then return false,"XBan not initialized" end
 
-			ent:Unban(ply,reason)
+			local ent = easylua.FindEntity(target)
 
+			if type(target) == "string" and target:find("STEAM_") then
+				xsys.xban.UnbanID(target,ply,reason)
+			else
+				if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+				ent:Unban(ply,reason)
+			end
 		end,"overwatch")
 
 		xsys.AddCommand("baninfo",function(ply,line,target)
@@ -408,7 +420,7 @@ do
 				all:ChatPrint("\tIs Hard Ban: "..tostring(ban.HardBanned))
 				all:ChatPrint("\tBan Number: "..tostring(ban.TimesBanned))
 			end
-		end)
+		end,"players")
 
 		xsys.AddCommand("strip",function(ply,line,target,weapon)
 			local ent = easylua.FindEntity(target)
