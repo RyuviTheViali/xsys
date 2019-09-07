@@ -599,29 +599,17 @@ if SERVER then
 	end)
 	
 	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(wep,ply)
-		--[[local cantar = false
-		if ply:IsPlayer() and ent:IsPlayer() then
-			if ply:CheckUserGroupLevel(ent:GetUserGroup) then
-				cantar = true
-			end]]
-		return xsys.xban.IsNotRestricted(ply)
+		return xsys.xban.IsRestricted(ply) and false or nil
 	end)
 
 	hook.Add("PhysgunPickup"     ,xsys.xban.RestrictionTag,function(ply,ent)
-		--[[local cantar = false
-		if ent:IsPlayer() then
-			cantar = not ply:CheckUserGroupLevel(ent:GetUserGroup())
-		elseif not ent:IsPlayer() and ent.CPPIGetOwner and ent:CPPIGetOwner():IsValid() and ent:CPPIGetOwner():IsPlayer() then
-			cantar = ply:CheckUserGroupLevel(ent:CPPIGetOwner():GetUserGroup())
-		elseif not ent:IsPlayer() and ent.CPPIGetOwner and not ent:CPPIGetOwner():IsValid() then
-			cantar = true
-		end]]
-		return xsys.xban.IsNotRestricted(ply) == false and false or nil
+		return xsys.xban.IsRestricted(ply) and false or nil
 	end)
 
 	hook.Add("OnPhysgunReload"   ,xsys.xban.RestrictionTag,function(wep,ply)
-		return xsys.xban.IsNotRestricted(ply)
+		return xsys.xban.IsRestricted(ply) and false or nil
 	end)
+	
 	hook.Add("PlayerSpawnEffect" ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
 	hook.Add("PlayerSpawnVehicle",xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
 	hook.Add("PlayerSpawnNPC"    ,xsys.xban.RestrictionTag,xsys.xban.IsNotRestricted)
