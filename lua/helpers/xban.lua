@@ -613,6 +613,7 @@ if SERVER then
 			if ply:CheckUserGroupLevel(ent:GetUserGroup()) then
 				cantar = true
 			end
+		end
 		return cantar and xsys.xban.IsNotRestricted(ply)
 	end)
 
