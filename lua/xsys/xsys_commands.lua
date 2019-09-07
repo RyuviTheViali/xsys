@@ -353,19 +353,62 @@ do
 			return false,xsys.TargetNotFound(target)
 		end,"guardians")
 		
-		--[[xsys.AddCommand("ban",function(ply,line,target,length,reason)
+		xsys.AddCommand("ban",function(ply,line,target,length,reason)
 			local ent = easylua.FindEntity(target)
 			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+			if not xsys.xban then return false,"XBan not initialized" end
+
+			ent:Ban(ply,length ~= "" and tonumber(length) or nil,false,reason)
+
+		end,"guardians")
+
+		xsys.AddCommand("hardban",function(ply,line,target,length,reason)
+			local ent = easylua.FindEntity(target)
+			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+			if not xsys.xban then return false,"XBan not initialized" end
+
+			ent:Ban(ply,length ~= "" and tonumber(length) or nil,true,reason)
 
 		end,"overwatch")
 
 		xsys.AddCommand("unban",function(ply,line,target,reason)
+			local ent = easylua.FindEntity(target)
+			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+			if not xsys.xban then return false,"XBan not initialized" end
+
+			ent:Unban(ply,reason)
 
 		end,"overwatch")
 
 		xsys.AddCommand("baninfo",function(ply,line,target)
+			local ent = easylua.FindEntity(target)
+			if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
+			if not xsys.xban then return false,"XBan not initialized" end
 
-		end)]] --TODO, NEED TO WRITE BAN SYSTEM
+			local ban = xsys.xban.GetBan(ent)
+
+			if not ban then
+				all:ChatPrint("[XBan] No ban info on record for: "..ent:Nick())
+			else
+				all:ChatPrint("[XBan] Ban info for player: "..ent:Nick().." ["..ent:SteamID().."]:")
+
+				all:ChatPrint("\tName: "..ban.NickName.." / "..ban.Name)
+				all:ChatPrint("\tSteamID64: "..ban.SteamID64)
+				all:ChatPrint("\tRank: "..ban.Rank)
+				all:ChatPrint("\tBanner Name: "..ban.BannerNickName.." / "..ban.BannerName)
+				all:ChatPrint("\tBanner SteamID: "..ban.BannerSteamID)
+				all:ChatPrint("\tBanner SteamID64: "..ban.BannerSteamID64)
+				all:ChatPrint("\tBan Reason: "..ban.Reason)
+				all:ChatPrint("\tStart Date: "..os.date("%B %d, %Y at %I:%M:%S %p",ban.StartTime))
+				all:ChatPrint("\tEnd Date: "..(ban.Length == 0 and "Never" or os.date("%B %d, %Y at %I:%M:%S %p",ban.EndTime)))
+				all:ChatPrint("\tBan Length: "..(ban.Length == 0 and "Infinite" or xsys.xban.GetTimeLength(ban.Length)))
+				all:ChatPrint("\tTime Remaining: "..(ban.Length == 0 and "Infinite" or ((os.time()-ban.StartTime)/(ban.EndTime-ban.StartTime))*ban.Length))
+				all:ChatPrint("\tHas Expired:"..tostring(ban.Expired))
+				all:ChatPrint("\tHas Been Interrupted:"..tostring(ban.Interrupted))
+				all:ChatPrint("\tIs Hard Ban:"..tostring(ban.HardBanned))
+				all:ChatPrint("\tBan Number:"..tostring(ban.TimesBanned))
+			end
+		end)
 
 		xsys.AddCommand("strip",function(ply,line,target,weapon)
 			local ent = easylua.FindEntity(target)
