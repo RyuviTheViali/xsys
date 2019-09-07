@@ -401,7 +401,7 @@ do
 				all:ChatPrint("\tBan Reason: "..ban.Reason)
 				all:ChatPrint("\tStart Date: "..os.date("%B %d, %Y at %I:%M:%S %p",ban.StartTime))
 				all:ChatPrint("\tEnd Date: "..(ban.Length == 0 and "Never" or os.date("%B %d, %Y at %I:%M:%S %p",ban.EndTime)))
-				all:ChatPrint("\tBan Length: "..(ban.Length == 0 and "Infinite" or xsys.xban.GetTimeLength(ban.Length)))
+				all:ChatPrint("\tBan Length: "..(ban.Length == 0 and "Infinite" or xsys.xban.GetTimeLength(ban.Length+4)))
 				all:ChatPrint("\tTime Remaining: "..(ban.Length == 0 and "Infinite" or (ban.Expired and "0" or (((os.time()+4)-ban.StartTime)/(ban.EndTime-ban.StartTime))*ban.Length)))
 				all:ChatPrint("\tHas Expired: "..tostring(ban.Expired))
 				all:ChatPrint("\tHas Been Interrupted:"..tostring(ban.Interrupted))
