@@ -421,6 +421,8 @@ if SERVER then
 		
 		local lentime = ban.Length == 0 and (os.time()-ban.StartTime) or ((os.time()-ban.StartTime)/(ban.EndTime-ban.StartTime))*ban.Length
 		
+		xsys.xban.Unrestrict(ply)
+		
 		ply.XsysBanned = false
 		ply:SetNWBool("XsysBanned",false)
 		xsys.xban.Msg(blue  ,"[XBan]",
@@ -436,7 +438,6 @@ if SERVER then
 					  blue  ,interrupted and xsys.xban.GetTimeLength(lentime) or xsys.xban.GetTimeLength(ban.Length+4),
 					  lblue ," with the reason: ",
 					  white,reason)
-		xsys.xban.Unrestrict(ply)
 		hook.Call("XsysUnbanPlayer",nil,ply,reason)
 	end
 	
