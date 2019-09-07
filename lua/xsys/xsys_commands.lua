@@ -362,7 +362,7 @@ do
 				xsys.xban.BanID(target,ply,length ~= "" and tonumber(length) or nil,false,reason)
 			else
 				if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
-				ent:Ban(ply,length ~= "" and tonumber(length) or nil,false,reason)
+				xsys.xban.BanID(target,ply,length ~= "" and tonumber(length) or nil,false,reason)
 			end
 		end,"guardians")
 
@@ -375,7 +375,7 @@ do
 				xsys.xban.BanID(target,ply,length ~= "" and tonumber(length) or nil,true,reason)
 			else
 				if not IsValid(ent) or not ent:IsPlayer() then return false,xsys.NoTarget(target) end
-				ent:Ban(ply,length ~= "" and tonumber(length) or nil,true,reason)
+				xsys.xban.BanID(target,ply,length ~= "" and tonumber(length) or nil,true,reason)
 			end
 		end,"overwatch")
 
