@@ -279,7 +279,7 @@ if SERVER then
 		ply.OldSelectedWeapon = nil
 		
 		if ply.OldGodMode then -- Give old godmode back
-			ply:ConCommand("cl_godmode "..(ply.OldGodMode == 1 and 0 or 1))
+			ply:ConCommand("cl_godmode "..ply.OldGodMode)
 		end
 		ply.OldGodMode = nil
 	end
@@ -422,7 +422,7 @@ if SERVER then
 		local lentime = ban.Length == 0 and (os.time()-ban.StartTime) or ((os.time()-ban.StartTime)/(ban.EndTime-ban.StartTime))*ban.Length
 		
 		xsys.xban.Unrestrict(ply)
-		
+
 		ply.XsysBanned = false
 		ply:SetNWBool("XsysBanned",false)
 		xsys.xban.Msg(blue  ,"[XBan]",
