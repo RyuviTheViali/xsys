@@ -1,3 +1,4 @@
+xsys      = xsys or {}
 xsys.xban = xsys.xban or {}
 
 xsys.xban.NetStrings = {
