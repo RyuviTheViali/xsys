@@ -175,6 +175,7 @@ do --Rank System
 	xsys.Ranks = xsys.Ranks or {}
 	
 	local ranklist = {
+		["banned"]     = 0,
 		["players"]    = 1,
 		["designers"]  = 2,
 		["developers"] = 3,
@@ -183,6 +184,8 @@ do --Rank System
 		["overseers"]  = math.huge
 	}
 	local rankaliases = {
+		["banni"]          = "banned",
+		["ban"]            = "banned",
 		["users"]          = "players",
 		["none"]           = "players",
 		["player"]         = "players",
@@ -275,6 +278,7 @@ do --Rank System
 		return self:GetNetworkedString("Rank"):lower()
 	end
 	
+	team.SetUp(0,"banned"    ,Color(180,64 ,64 ))
 	team.SetUp(1,"players"   ,Color(128,128,128))
 	team.SetUp(2,"designers" ,Color(100,100,200))
 	team.SetUp(3,"developers",Color(100,200,100))
@@ -284,6 +288,7 @@ do --Rank System
 	
 	if SERVER then
 		local nostore = {
+			"banned",
 			"players",
 			"users"
 		}
@@ -356,7 +361,11 @@ do --Rank System
 
 		local ufd,ufc = -2,nil
 		hook.Add("PlayerSpawn","XsysPlayerAuthentication",function(ply)
-			ply:SetUserGroup("players")
+			if xsys.xban and xsys.xban.IsRestricted(ply) then
+				ply:SetUserGroup("banned")
+			else
+				ply:SetUserGroup("players")
+			end
 			if game.SinglePlayer() or ply:IsListenServerHost() then
 				ply:SetUserGroup("overseers")
 				return
