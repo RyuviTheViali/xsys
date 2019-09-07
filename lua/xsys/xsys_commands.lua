@@ -404,7 +404,7 @@ do
 				all:ChatPrint("\tBan Length: "..(ban.Length == 0 and "Infinite" or xsys.xban.GetTimeLength(ban.Length+4)))
 				all:ChatPrint("\tTime Remaining: "..(ban.Length == 0 and "Infinite" or (ban.Expired and "0" or (((os.time()+4)-ban.StartTime)/(ban.EndTime-ban.StartTime))*ban.Length)))
 				all:ChatPrint("\tHas Expired: "..tostring(ban.Expired))
-				all:ChatPrint("\tHas Been Interrupted:"..tostring(ban.Interrupted))
+				all:ChatPrint("\tHas Been Interrupted: "..tostring(ban.Interrupted))
 				all:ChatPrint("\tIs Hard Ban: "..tostring(ban.HardBanned))
 				all:ChatPrint("\tBan Number: "..tostring(ban.TimesBanned))
 			end
