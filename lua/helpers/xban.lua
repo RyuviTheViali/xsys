@@ -720,14 +720,14 @@ else -- CLIENT
 			if table.Count(b) ~= 0 then
 				local lift = b.Length == 0 and "Never" or os.date("%B %d, %Y at %I:%M:%S %p",b.EndTime)
 				local remaining = b.Length == 0 and "Infinite"  or
-					xsys.xban.GetTimeLength((1-((os.time()-b.StartTime)/(b.EndTime-b.StartTime)))*b.Length)
+					xsys.xban.GetTimeLength((1-(((os.time()-4)-b.StartTime)/(b.EndTime-b.StartTime)))*b.Length)
 				local suffix = b.TimesBanned == 1 and "st" or b.TimesBanned == 2 and "nd" or b.TimesBanned == 3 and "rd" or "th"
 				
 				MatrixText("-Ban Lift-"      ,"xban-timesmall",x,y-96,0.5+a3*0.5,Color(255,255,255,a3*255),1,1,1,Color(0,0,0,a3*255))
 				MatrixText(lift              ,"xban-time"     ,x,y-64,0.5+a3*0.5,Color(255,255,255,a3*255),1,1,1,Color(0,0,0,a3*255))
 				
 				if b.Length ~= 0 then
-					local rem = 1-(((os.time()+4)-b.StartTime)/(b.EndTime-b.StartTime))
+					local rem = 1-((os.time()-b.StartTime)/(b.EndTime-b.StartTime))
 					local halfa = (0.5+a3*0.5)
 					local xx,yy,ww,hh = x-halfa*ScrW()/4,y-32-(a3*10),halfa*ScrW()/2,(a3*20)
 					surface.SetDrawColor(Color(0  ,0 ,0 ,a3*180))
