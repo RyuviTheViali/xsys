@@ -191,17 +191,20 @@ if SERVER then
 		local ispending = type(ply) ~= "Player"
 		local plyinfo   = ispending and xsys.xban.LookupPlayerInfo(ply) or {}
 		local plydat    = table.Count(plyinfo) ~= 0 and plyinfo.response.players[1] or {}
-		local isxenora  = type(banner) == "string"
+		local isxenora  = type(banner) ~= "Player"
 		
 		local currenttime = os.time()
 		
 		local oldban = xsys.xban.GetBan(ispending and ply or ply:SteamID()) or nil
 		
+		local pendingrank,pendingname = xsys.GetUserGroupFromSteamID(ispending and ply or ply:SteamID())
+		pendingrank = pendingrank or "Players"
+		
 		local newban = table.Copy(xsys.xban.BanData)
 		newban.Name            = ispending and (plydat.personaname or "N/A") or ply:RealName()
 		newban.NickName        = ispending and (plydat.personaname or "N/A") or ply:Nick()
 		newban.SteamID64       = ispending and (plydat.steamid or SteamID64(ply)) or ply:SteamID64()
-		newban.Rank            = team.GetName(ply:Team())
+		newban.Rank            = ispending and pendingrank or team.GetName(ply:Team())
 		newban.BannerName      = isxenora and "Xenora" or banner:RealName()
 		newban.BannerNickName  = isxenora and "The Server" or banner:Nick()
 		newban.BannerSteamID   = isxenora and "STEAM_XE:NO:RA" or banner:SteamID()
@@ -232,7 +235,7 @@ if SERVER then
 		ply.Unrestricted = false
 		
 		ply.OldWeapons = {} -- Backup and strip weapons
-		ply.OldSelectedWeapon = ply:GetActiveWeapon():GetClass()
+		ply.OldSelectedWeapon = ply:GetActiveWeapon() and ply:GetActiveWeapon():GetClass() or nil
 		for k,v in pairs(ply:GetWeapons()) do
 			ply.OldWeapons[v:GetClass()] = true
 		end
@@ -353,7 +356,7 @@ if SERVER then
 	end
 	
 	xsys.xban.BanID = function(id,banner,time,hardban,reason)
-		local inserver = player.GetBySteamID(id)
+		local inserver = type(id) == "Player" and id or player.GetBySteamID(id)
 		local isxenora = type(banner) ~= "Player"
 		
 		if inserver then
@@ -437,7 +440,7 @@ if SERVER then
 	end
 	
 	xsys.xban.UnbanID = function(id,unbanner,reason)
-		local inserver = player.GetBySteamID(id)
+		local inserver = type(id) == "Player" and id or player.GetBySteamID(id)
 		
 		if inserver then
 			if not xsys.xban.IsBanned(inserver:SteamID()) then return end -- Not banned
@@ -466,7 +469,7 @@ if SERVER then
 		xsys.xban.RemovePendingBan(id)
 		xsys.xban.Msg(blue  ,"[XBan]",
 					  lblue ," Player ",
-					  blue  ,(plyinfo.personaname or "Unknown Name").." ["..id.."]",
+					  blue  ,ban.NickName..(ban.Name ~= ban.NickName and " / "..ban.Name or "").." ["..id.."]",
 					  lblue ," will be ",
 					  blue  ,"UNBANNED",
 					  lblue ," on next join for the reason: ",
@@ -507,11 +510,11 @@ if SERVER then
 	
 	gameevent.Listen("player_connect")
 	xsys.xban.Hooks.JoinDetection = function(data)
-		local ban = xsys.xban.LiveBans[data.steamid]
+		local ban = xsys.xban.GetBan(data.networkid)
 		if ban then
-			if ban.HardBanned then
-				local remaining = 1-((os.time()-ben.StartTime)/(ban.EndTime-ban.StartTime))
-				game.KickID(data.steamid,
+			if not (ban.Expired or ban.Interrupted) and ban.HardBanned and os.time() < ban.EndTime then
+				local remaining = 1-((os.time()-ban.StartTime)/(ban.EndTime-ban.StartTime))
+				game.KickID(data.networkid,
 					"You have been Hard-Banned from Xenora until: "..
 					os.date("%B %d, %Y at %I:%M:%S %p",ban.EndTime)..
 					"\n\n Time Remaining: "..
@@ -523,15 +526,18 @@ if SERVER then
 	hook.Add("player_connect","XSysXBanJoinDetection",xsys.xban.Hooks.JoinDetection)
 	
 	xsys.xban.Hooks.InitialSpawnDetection = function(ply,transition)
+		local ban  = xsys.xban.GetBan(ply:SteamID())
+		if ban then
+			net.Start(xsys.xban.NetStrings.Restrict)
+				net.WriteTable(ban)
+			net.Send(ply)
+		end
+		
 		if xsys.xban.IsBanned(ply:SteamID()) then
 			xsys.xban.Restrict(ply)
 			ply.XsysBanned = true
 			ply:SetNWBool("XsysBanned",true)
 		end
-		
-		net.Start(xsys.xban.NetStrings.Restrict)
-			net.WriteTable(xsys.xban.GetBan(ply:SteamID()))
-		net.Send(ply)
 	end
 	hook.Add("PlayerInitialSpawn","XSysXNanInitialSpawnDetection",xsys.xban.Hooks.InitialSpawnDetection)
 	
