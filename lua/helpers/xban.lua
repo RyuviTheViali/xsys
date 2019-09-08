@@ -586,7 +586,7 @@ if SERVER then
 			return false
 		end
 	end)
-	hook.Add("PlayerCanSeePlayersChat"  ,xsys.xban.RestrictionTag,function(listener,speaker)
+	hook.Add("PlayerCanSeePlayersChat"  ,xsys.xban.RestrictionTag,function(text,teamonly,listener,speaker)
 		if xsys.xban.IsRestricted(speaker) and listener:GetPos():Distance(speaker:GetPos()) > 64 then
 			return false
 		end
