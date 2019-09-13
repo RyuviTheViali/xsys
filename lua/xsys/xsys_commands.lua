@@ -459,6 +459,16 @@ do
 			end
 		end,"guardians")
 
+		xsys.AddCommand({"cleanragdolls","ccr"},function(ply,line)
+			if all then
+				all:SendLua("game.RemoveRagdolls()")
+			else
+				for k,v in pairs(player.GetHumans()) do
+					v:SendLua("game.RemoveRagdolls()")
+				end
+			end
+		end,"designers")
+
 		xsys.AddCommand("freeze",function(ply,line,target,freeze)
 			local ent = easylua.FindEntity(target)
 			if not ent then return false,xsys.NoTarget(target) end
