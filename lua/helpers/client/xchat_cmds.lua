@@ -159,8 +159,12 @@ hook.Add("ChatCommand","cexec",function(com,paramstr,msg)
 	if not LocalPlayer():CheckUserGroupLevel("developers") then return end
 	if not (com:lower() == "cexec" or com:lower() == "cx") then return end
 
-	local cmdname = string.Explode(",",paramstr)[1]
-	local cmdargs = string.Explode(",",paramstr)[2]
+	local ply,cmd = unpack(string.Explode(",",paramstr))
+	local exp     = string.Explode(" ",cmd)
+	local cmdname = exp[1]
+	local cmdargs = table.Copy(exp)
+	table.remove(cmdargs,1)
+	cmdargs       = table.concat(cmdargs," ")
 
-	xsys.CallCommand(LocalPlayer(),"cexec","",ply,cmdname,cmdargs)
+	xsys.CallCommand(LocalPlayer(),"cexec",paramstr,{ply,cmdname,cmdargs})
 end)
