@@ -580,7 +580,8 @@ do
 		end)
 
 		xsys.AddCommand({"cexec","cx"},function(ply,txt,target,...)
-			ply:SendLua([[RunConsoleCommand("]]..table.concat({...},"\",\"")..[[")]])
+
+			ply:SendLua([[RunConsoleCommand("]]..table.concat(string.Explode(" ",{...}),"\",\"")..[[")]])
 		end,"developers")
 		
 		do -- Restrictions
