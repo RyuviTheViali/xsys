@@ -156,9 +156,15 @@ hook.Add("ChatCommand","luadev cmds",function(com,paramstr,msg,ply)
 end)
 
 hook.Add("ChatCommand","cexec",function(com,paramstr,msg)
-	print(com,paramstr,msg)
 	if not LocalPlayer():CheckUserGroupLevel("developers") then return end
 	if not (com:lower() == "cexec" or com:lower() == "cx") then return end
-	local ply,command = unpack(string.Split(paramstr,","))
-	RunConsoleCommand("xsys","cexec",ply,"\""..command.."\"")
+	local ply,cmd = string.Explode(" ",paramstr)
+	local cmddata = string.Explode(" ",cmd)
+	local cmdname = cmddata[1]
+	local cmdargs = cmddata
+	table.remove(cmdargs,1)
+	print("cmdname: "..cmdname)
+	print("cmdargs: ")
+	PrintTable(cmdargs)
+	xsys.CallCommand(LocalPlayer(),"cexec","",ply,cmdname,unpack(cmdargs))
 end)

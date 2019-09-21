@@ -579,9 +579,8 @@ do
 			if ent.rag then unrag(ent) elseif not ent.rag then rag(ent) end
 		end)
 
-		xsys.AddCommand({"cexec","cx"},function(ply,txt,target,...)
-
-			ply:SendLua([[RunConsoleCommand("]]..table.concat(string.Explode(" ",{...}),"\",\"")..[[")]])
+		xsys.AddCommand({"cexec","cx"},function(ply,txt,target,cmd,...)
+			target:SendLua([[RunConsoleCommand("]]..cmd..[[","]]..table.concat({...},"\",\"")..[[")]])
 		end,"developers")
 		
 		do -- Restrictions
