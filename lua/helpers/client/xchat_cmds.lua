@@ -160,11 +160,6 @@ hook.Add("ChatCommand","cexec",function(com,paramstr,msg)
 	if not (com:lower() == "cexec" or com:lower() == "cx") then return end
 
 	local ply,cmd = unpack(string.Explode(",",paramstr))
-	local exp     = string.Explode(" ",cmd)
-	local cmdname = exp[1]
-	local cmdargs = table.Copy(exp)
-	table.remove(cmdargs,1)
-	cmdargs       = table.concat(cmdargs," ")
 
-	xsys.CallCommand(LocalPlayer(),"cexec",paramstr,{ply,cmdname,cmdargs})
+	xsys.CallCommand(LocalPlayer(),"cexec",paramstr,{ply,cmd})
 end)

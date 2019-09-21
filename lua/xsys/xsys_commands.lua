@@ -579,9 +579,16 @@ do
 			if ent.rag then unrag(ent) elseif not ent.rag then rag(ent) end
 		end)
 
-		xsys.AddCommand({"cexec","cx"},function(ply,txt,target,cmd,args)
+		xsys.AddCommand({"cexec","cx"},function(ply,txt,target,str)
 			local ent = target and easylua.FindEntity(target) or ply
-			ent:SendLua([[RunConsoleCommand("]]..cmd..[[","]]..(args or "")..[[")]])
+
+			local exp     = string.Explode(" ",str)
+			local cmdname = exp[1]
+			local cmdargs = table.Copy(exp)
+			table.remove(cmdargs,1)
+			cmdargs       = table.concat(cmdargs," ")
+
+			ent:SendLua([[RunConsoleCommand("]]..cmdname..[[","]]..(cmdargs or "")..[[")]])
 		end,"developers")
 		
 		do -- Restrictions
