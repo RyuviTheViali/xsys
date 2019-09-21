@@ -590,6 +590,112 @@ do
 
 			ent:SendLua([[RunConsoleCommand("]]..cmdname..[[","]]..(cmdargs or "")..[[")]])
 		end,"developers")
+
+		local attributealiases = {
+			["Player"] = {
+				h  = "health",
+				a  = "armor",
+				mh = "maxhealth",
+				rs = "runspeed",
+				ws = "walkspeed",
+				jp = "jumppower",
+				n  = "nick",
+				f  = "frozen",
+				l  = "locked",
+				g  = "gravity"
+			},
+			["Entity"] = {
+				h = "health",
+				m = "movement",
+				u = "unbreakable",
+				r = "remove",
+				c = "color",
+				g = "gravity"
+			},
+		}
+
+		local attributes = {
+			["Player"] = {
+				health = function(ply,val)
+					ply:SetHealth(tonumber(val))
+				end,
+				armor = function(ply,val)
+					ply:SetArmor(tonumber(val))
+				end,
+				maxhealth = function(ply,val)
+					ply:SetMaxHealth(tonumber(val))
+				end,
+				runspeed = function(ply,val)
+					ply:SetRunSpeed(tonumber(val))
+				end,
+				walkspeed = function(ply,val)
+					ply:SetWalkSpeed(tonumber(val))
+				end,
+				jumppower = function(ply,val)
+					ply:SetJumpPower(tonumber(val))
+				end,
+				nick = function(ply,val)
+					ply:SetNick(tostring(val))
+				end,
+				frozen = function(ply,val)
+					ply:Freeze(tobool(val))
+				end,
+				locked = function(ply,val)
+					local lock = tobool(val)
+					if lock then
+						ply:Lock()
+					else
+						ply:UnLock()
+					end
+				end,
+				gravity = function(ply,val)
+					ply:SetGravity(tonumber(val))
+				end
+			},
+			["Entity"] = {
+				health = function(ent,val)
+					ent:SetHealth(tonumber(val))
+				end,
+				movement = function(ent,val)
+					local phys = ent.GetPhysicsObject and ent:GetPhysicsObject()
+					if phys and phys:IsValid() then
+						phys:EnableMotion(tobool(val))
+					end
+				end,
+				unbreakable = function(ent,val)
+					ent:SetVar("Unbreakable",tobool(val) and "1" or "0")
+				end,
+				remove = function(ent)
+					SafeRemoveEntity(ent)
+				end,
+				color = function(ent,val)
+					local clr = string.Explode(" ",val)
+					ent:SetColor(Color(clr[1] or 255,clr[2] or 255, clr[3] or 255, clr[4] or 255))
+				end,
+				gravity = function(ent,val)
+					ent:SetGravity(tonumber(val))
+
+					local phys = ent.GetPhysicsObject and ent:GetPhysicsObject()
+					if phys and phys:IsValid() then
+						phys:SetGravity(tonumber(val))
+					end
+				end
+			}
+		}
+
+		xsys.AddCommand({"a","attr","attribute"},function(ply,txt,target,attribute,value)
+			local ent = target and easylua.FindEntity(target) or ply
+
+			if not ent or not ent:IsValid() then return false,"Invalid Entity" end
+
+			local class   = ent:GetClass() == "player" and "Player" or "Entity"
+			local isalias = attributealiases[class][attribute]
+			local attr    = attributes[class][isalias or attribute]
+
+			if not attr then return false,"No attribute for "..tostring(ent).." named "..attribute end
+
+			attr(ent,value)
+		end,"developers")
 		
 		do -- Restrictions
 			xsys.AddCommand({"restrictions"},function(ply,txt,target,bool)

@@ -163,3 +163,15 @@ hook.Add("ChatCommand","cexec",function(com,paramstr,msg)
 
 	xsys.CallCommand(LocalPlayer(),"cexec",paramstr,{ply,cmd})
 end)
+
+hook.Add("ChatCommand","attribute",function(com,paramstr,msg)
+	if not LocalPlayer():CheckUserGroupLevel("developers") then return end
+	if not (com:lower() == "a" or com:lower() == "attr" or com:lower() == "attribute") then return end
+
+	local dat = string.Explode(",",paramstr)
+	local target = dat[1]
+	local attribute = dat[2]
+	local value = dat[3]
+
+	xsys.CallCommand(LocalPlayer(),"attribute",paramstr,{target,attribute,value})
+end)
