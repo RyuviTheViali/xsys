@@ -578,6 +578,10 @@ do
 			if not ent:IsPlayer() then return false,xsys.NoTarget(target) end
 			if ent.rag then unrag(ent) elseif not ent.rag then rag(ent) end
 		end)
+
+		xsys.AddCommand({"cexec","cx"},function(ply,txt,target,cmd)
+			ply:SendLua([[RunConsoleCommand(]]..cmd..[[)]])
+		end,"developers")
 		
 		do -- Restrictions
 			xsys.AddCommand({"restrictions"},function(ply,txt,target,bool)
