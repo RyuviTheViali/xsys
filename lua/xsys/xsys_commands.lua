@@ -580,7 +580,8 @@ do
 		end)
 
 		xsys.AddCommand({"cexec","cx"},function(ply,txt,target,cmd,...)
-			target:SendLua([[RunConsoleCommand("]]..cmd..[[","]]..table.concat({...},"\",\"")..[[")]])
+			local ent = target and easylua.FindEntity(target) or ply
+			ent:SendLua([[RunConsoleCommand("]]..cmd..[[","]]..table.concat({...},"\",\"")..[[")]])
 		end,"developers")
 		
 		do -- Restrictions
