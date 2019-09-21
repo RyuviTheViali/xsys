@@ -157,7 +157,7 @@ end)
 
 hook.Add("ChatCommand","cexec",function(com,paramstr,msg)
 	if not LocalPlayer():CheckUserGroupLevel("developers") then return end
-	if com:lower() ~= "cexec" or com:lower() ~= "cx" then return end
+	if not (com:lower() == "cexec" or com:lower() == "cx") then return end
 	local ply,command = string.Split(paramstr,",")
 	print(command)
 	RunConsoleCommand("xsys","cexec",ply,"\""..command.."\"")
