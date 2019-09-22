@@ -477,7 +477,7 @@ do
 
 			if all then
 				if isall then
-					for k,v in pairs(ent) do
+					for k,v in pairs(player.GetAll()) do
 						for kk,vv in pairs(v:GetWeapons()) do
 							if vv:GetClass() == "none" or vv:GetClass() == "hands" then continue end
 							v:DropWeapon(vv)
@@ -491,7 +491,7 @@ do
 				end
 			else
 				if isall then
-					for k,v in pairs(ent) do
+					for k,v in pairs(player.GetAll()) do
 						local wep = v:GetActiveWeapon()
 						if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
 						if vv:GetClass() == "none" or vv:GetClass() == "hands" then return end
