@@ -486,7 +486,7 @@ do
 					end
 				else
 					for k,v in pairs(ent:GetWeapons()) do
-						if vv:GetClass() == "none" or vv:GetClass() == "hands" then continue end
+						if v:GetClass() == "none" or v:GetClass() == "hands" then continue end
 						ent:DropWeapon(v)
 					end
 				end
