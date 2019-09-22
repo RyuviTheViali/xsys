@@ -501,7 +501,7 @@ do
 				else
 					local wep = ent:GetActiveWeapon()
 					if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
-					if vv:GetClass() == "none" or vv:GetClass() == "hands" then return end
+					if v:GetClass() == "none" or v:GetClass() == "hands" then return end
 					ent:DropWeapon(wep)
 				end
 			end
