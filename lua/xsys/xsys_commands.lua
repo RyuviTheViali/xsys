@@ -445,11 +445,11 @@ do
 			end
 		end,"guardians")
 
-		xsys.AddCommand({"drop","disconnect"},function(ply,line,target)
-			local ent = easylua.FindEntity(target)
+		xsys.AddCommand({"exit","disconnect"},function(ply,line,target)
+			local ent = ply:CheckUserGroupLevel("guardians") and target and easylua.FindEntity(target) or ply
 			if not ent then return false,xsys.NoTarget(target) end
-			ent:ConCommand("disconnect")
-		end,"guardians")
+			ent:SendLua([[RunConsoleCommand("disconnect")]])
+		end)
 
 		xsys.AddCommand({"clean","cleanup"},function(ply,line,target)
 			local ent = easylua.FindEntity(target)
@@ -468,6 +468,23 @@ do
 				end
 			end
 		end,"designers")
+
+		xsys.AddCommand({"dropweapon","drop","d"},function(ply,line,target,all)
+			local ent = ply:CheckUserGroupLevel("designers") and target and easylua.FindEntity(target) or ply
+			if not ent then return false,xsys.NoTarget(target) end
+
+			if all then
+				for k,v in pairs(ent:GetWeapons()) do
+					ent:DropWeapon(v)
+				end
+			else
+				local wep = ent:GetActiveWeapon()
+
+				if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
+
+				ent:DropWeapon(wep)
+			end
+		end)
 
 		xsys.AddCommand("freeze",function(ply,line,target,freeze)
 			local ent = easylua.FindEntity(target)
