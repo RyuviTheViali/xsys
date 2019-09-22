@@ -296,7 +296,7 @@ net.Receive(Tag,function(len,pl)
 	net.Send(pl)
 end)
 
-if xsys then
+if xsys and xsys.AddCommand then
 	xsys.AddCommand({"log","logview"},function(ply,line)
 		ply:ConCommand("logview")
 	end)
