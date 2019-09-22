@@ -470,19 +470,35 @@ do
 		end,"designers")
 
 		xsys.AddCommand({"dropweapon","drop","d"},function(ply,line,target,all)
-			local ent = ply:CheckUserGroupLevel("designers") and target and easylua.FindEntity(target) or ply
+			local ent   = ply:CheckUserGroupLevel("designers") and target and easylua.FindEntity(target) or ply
+			local isall = istable(ent)
+
 			if not ent then return false,xsys.NoTarget(target) end
 
 			if all then
-				for k,v in pairs(ent:GetWeapons()) do
-					ent:DropWeapon(v)
+				if isall then
+					for k,v in pairs(ent) do
+						for kk,vv in pairs(v:GetWeapons()) do
+							v:DropWeapon(vv)
+						end
+					end
+				else
+					for k,v in pairs(ent:GetWeapons()) do
+						ent:DropWeapon(v)
+					end
 				end
 			else
-				local wep = ent:GetActiveWeapon()
-
-				if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
-
-				ent:DropWeapon(wep)
+				if isall then
+					for k,v in pairs(ent) do
+						local wep = v:GetActiveWeapon()
+						if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
+						v:DropWeapon(wep)
+					end
+				else
+					local wep = ent:GetActiveWeapon()
+					if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
+					ent:DropWeapon(wep)
+				end
 			end
 		end)
 
