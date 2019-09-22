@@ -495,13 +495,13 @@ do
 					for k,v in pairs(player.GetAll()) do
 						local wep = v:GetActiveWeapon()
 						if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
-						if vv:GetClass() == "none" or vv:GetClass() == "hands" then return end
+						if v:GetClass() == "none" or v:GetClass() == "hands" then return end
 						v:DropWeapon(wep)
 					end
 				else
 					local wep = ent:GetActiveWeapon()
 					if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
-					if v:GetClass() == "none" or v:GetClass() == "hands" then return end
+					if wep:GetClass() == "none" or wep:GetClass() == "hands" then return end
 					ent:DropWeapon(wep)
 				end
 			end
