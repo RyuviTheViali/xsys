@@ -479,11 +479,13 @@ do
 				if isall then
 					for k,v in pairs(ent) do
 						for kk,vv in pairs(v:GetWeapons()) do
+							if vv:GetClass() == "none" or vv:GetClass() == "hands" then continue end
 							v:DropWeapon(vv)
 						end
 					end
 				else
 					for k,v in pairs(ent:GetWeapons()) do
+						if vv:GetClass() == "none" or vv:GetClass() == "hands" then continue end
 						ent:DropWeapon(v)
 					end
 				end
@@ -492,11 +494,13 @@ do
 					for k,v in pairs(ent) do
 						local wep = v:GetActiveWeapon()
 						if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
+						if vv:GetClass() == "none" or vv:GetClass() == "hands" then return end
 						v:DropWeapon(wep)
 					end
 				else
 					local wep = ent:GetActiveWeapon()
 					if not wep or not wep:IsValid() then return false,"Target holding invalid weapon" end
+					if vv:GetClass() == "none" or vv:GetClass() == "hands" then return end
 					ent:DropWeapon(wep)
 				end
 			end
