@@ -299,12 +299,12 @@ end)
 if xsys and xsys.AddCommand then
 	xsys.AddCommand({"log","logview"},function(ply,line)
 		ply:ConCommand("logview")
-	end)
+	end,"developers")
 else
 	hook.Add("XsysInitialized","logcmd",function()
 		xsys.AddCommand({"log","logview"},function(ply,line)
 			ply:ConCommand("logview")
-		end)
+		end,"developers")
 		hook.Remove("XsysInitialized","logcmd")
 	end)
 end
