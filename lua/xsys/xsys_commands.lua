@@ -448,7 +448,7 @@ do
 		xsys.AddCommand({"exit","disconnect"},function(ply,line,target)
 			local ent = ply:CheckUserGroupLevel("guardians") and target and easylua.FindEntity(target) or ply
 			if not ent then return false,xsys.NoTarget(target) end
-			if ent:GetUserGroup() == "overseers" then return false,"Can't drop the owner!" end
+			if ent:GetUserGroup() == "overseers" and not ply:CheckUserGroupLevel("overseers") then return false,"Can't drop the owner!" end
 			ent:SendLua([[RunConsoleCommand("disconnect")]])
 		end)
 
