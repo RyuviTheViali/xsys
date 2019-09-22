@@ -239,7 +239,7 @@ hook.Add("OnChatSyntaxParse","syntax",function(ply,message,tm,d)
 	end
 	if not code then normal = true end
 	if not normal then
-		if ply:CanRunLua() then
+		if ply:CanRunLua() and not cmd == "cmd" then
 			if cmd == "cmd" then
 				chat.AddText(team.GetColor(ply:Team()),ply:Nick(),grey,"@",color or colors[cmd] or "",method or methods[cmd] or "",grey,grey,": ",Color(200,200,200),code)
 			elseif cmd == "f" or cmd == "fire" then
