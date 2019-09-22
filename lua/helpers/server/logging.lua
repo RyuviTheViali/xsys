@@ -241,7 +241,7 @@ local crashes,inited
 function init()
 	local files = file.Find("data/sv_logs/*.txt","GAME")
 	if inited == #files then return end
-	inited,crashed = #files,files
+	inited,crashes = #files,files
 	table.sort(crashes,function(a,b)
 		local aa = tonumber((a:gsub(".txt","")))
 		local bb = tonumber((b:gsub(".txt","")))
