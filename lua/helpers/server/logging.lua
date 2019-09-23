@@ -295,16 +295,3 @@ net.Receive(Tag,function(len,pl)
 		net.WriteString(data)
 	net.Send(pl)
 end)
-
-if xsys and xsys.AddCommand then
-	xsys.AddCommand({"log","logview"},function(ply,line)
-		ply:ConCommand("logview")
-	end,"developers")
-else
-	hook.Add("XsysInitialized","logcmd",function()
-		xsys.AddCommand({"log","logview"},function(ply,line)
-			ply:ConCommand("logview")
-		end,"developers")
-		hook.Remove("XsysInitialized","logcmd")
-	end)
-end

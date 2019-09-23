@@ -751,5 +751,9 @@ do
 				ply.Unrestricted = unrestricted
 			end,"designers")
 		end
+
+		xsys.AddCommand({"log","logview"},function(ply,line)
+			ply:ConCommand("logview")
+		end,"developers")
 	end
 end
