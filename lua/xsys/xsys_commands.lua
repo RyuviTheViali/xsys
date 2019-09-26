@@ -295,7 +295,9 @@ do
 		xsys.AddCommand({"name","nick","setnick","setname","nickname"},function(ply,txt)
 			if txt then
 				txt = txt:Trim()
-				if txt == "" or txt:gsub(" ","") == "" then txt = nil end
+				if txt == "" or txt:gsub(" ","") == "" then
+					txt = ply:RealName()
+				end
 				if txt and #txt > 40 then
 					if not txt.ulen or txt:ulen() > 40 then
 						return false,"my god what are you doing"
