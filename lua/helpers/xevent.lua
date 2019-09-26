@@ -361,7 +361,9 @@ end
 if SERVER then
 	function Player.SetNick(pl,name)
 		local userid = pl:UserID()
-		if not name then name = nil end
+		if not name or name == "" or name:gsub(" ","") == "" then
+			name = xevent.EngineNick(pl)
+		end
 		pl:SetNetData(Tag2,name)
 		return xevent.player_changename(userid,name)
 	end
