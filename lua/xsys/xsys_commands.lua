@@ -43,6 +43,29 @@ do --Xsys Kill
 end
 
 do
+	xsys.attr_attributealiases = {
+		["Player"] = {
+			h  = "health",
+			a  = "armor",
+			mh = "maxhealth",
+			rs = "runspeed",
+			ws = "walkspeed",
+			jp = "jumppower",
+			n  = "nick",
+			f  = "frozen",
+			l  = "locked",
+			g  = "gravity"
+		},
+		["Entity"] = {
+			h = "health",
+			m = "movement",
+			u = "unbreakable",
+			r = "remove",
+			c = "color",
+			g = "gravity"
+		},
+	}
+
 	if SERVER then
 		xsys.AddCommand({"revive","respawn"},function(ply,txt,target,bool)
 			local ok,reason = hook.Run("CanPlayerRespawn",ply)
@@ -630,29 +653,6 @@ do
 
 			ent:SendLua([[RunConsoleCommand("]]..cmdname..[[","]]..(cmdargs or "")..[[")]])
 		end,"developers")
-
-		xsys.attr_attributealiases = {
-			["Player"] = {
-				h  = "health",
-				a  = "armor",
-				mh = "maxhealth",
-				rs = "runspeed",
-				ws = "walkspeed",
-				jp = "jumppower",
-				n  = "nick",
-				f  = "frozen",
-				l  = "locked",
-				g  = "gravity"
-			},
-			["Entity"] = {
-				h = "health",
-				m = "movement",
-				u = "unbreakable",
-				r = "remove",
-				c = "color",
-				g = "gravity"
-			},
-		}
 
 		xsys.attr_attributes = {
 			["Player"] = {
