@@ -347,7 +347,7 @@ xevent.player_changename=function(userid,name,force)
 	data.userid = userid
 	local cache = GetCache(userid)
 	data.name_overriden = not not name
-	if name then
+	if name and name ~= "" and name:gsub(" ","") ~= "" then
 		name = tostring(name)
 		data.newname = name
 		data.oldname = cache and cache.name or "unconnected"
