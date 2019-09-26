@@ -631,7 +631,7 @@ do
 			ent:SendLua([[RunConsoleCommand("]]..cmdname..[[","]]..(cmdargs or "")..[[")]])
 		end,"developers")
 
-		local attributealiases = {
+		xsys.attr_attributealiases = {
 			["Player"] = {
 				h  = "health",
 				a  = "armor",
@@ -654,7 +654,7 @@ do
 			},
 		}
 
-		local attributes = {
+		xsys.attr_attributes = {
 			["Player"] = {
 				health = function(ply,val)
 					ply:SetHealth(tonumber(val))
@@ -729,8 +729,8 @@ do
 			if not ent or not ent:IsValid() then return false,"Invalid Entity" end
 
 			local class   = ent:GetClass() == "player" and "Player" or "Entity"
-			local isalias = attributealiases[class][attribute]
-			local attr    = attributes[class][isalias or attribute]
+			local isalias = xsys.attr_attributealiases[class][attribute]
+			local attr    = xsys.attr_attributes[class][isalias or attribute]
 
 			if not attr then return false,"No attribute for "..tostring(ent).." named "..attribute end
 
