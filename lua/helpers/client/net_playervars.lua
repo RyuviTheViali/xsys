@@ -55,6 +55,10 @@ function PLAYER:GetNetData(key)
 	end
 
 	local tt = data_table[id]
-	
+
 	return tt and tt[key]
 end
+
+xsys = xsys or {}
+
+xsys.NET_PLAYERVARS_INITIALIZED = true

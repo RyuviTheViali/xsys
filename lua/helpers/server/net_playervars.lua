@@ -98,3 +98,7 @@ function PLAYER:GetNetData(key)
 	
 	return Get(id,key)
 end
+
+xsys = xsys or {}
+
+xsys.NET_PLAYERVARS_INITIALIZED = true
