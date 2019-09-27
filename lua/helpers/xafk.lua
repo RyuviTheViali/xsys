@@ -1,7 +1,7 @@
 xsys = xsys or {}
 
-assert(xsys.NET_PLAYERVARS_INITIALIZED,"xafk requires Net PlayerVars!")
-assert(xsys.NET_QUEUE_INITIALIZED     ,"xafk requires Net Queue!")
+--assert(xsys.NET_PLAYERVARS_INITIALIZED,"xafk requires Net PlayerVars!")
+--assert(xsys.NET_QUEUE_INITIALIZED     ,"xafk requires Net Queue!")
 
 local Tag = "XAFK"
 local Now = SysTime
@@ -122,7 +122,7 @@ if CLIENT then
 		end
 
 	end
-	
+
 	timer.Simple(10,function()
 		timer.Create(Tag,0.2,0,Think)
 	end)
