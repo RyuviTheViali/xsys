@@ -48,6 +48,7 @@ function ULib.splitArgs(args,start_token,end_token)
 	return argv,in_quote
 end
 
+local cmds = {["!"]=true,["\\"]=true,["/"]=true,["."]=true}
 hook.Add("PreChatSound","stopitcmd",function(s)
 	if cmds[s.line:sub(1,1)] then
 		return false
@@ -69,7 +70,6 @@ local function Parse(pl,msg)
 	return hook.Call("ChatCommand",nil,com,paramstr,msg,pl)
 end
  
-local cmds = {["!"]=true,["\\"]=true,["/"]=true,["."]=true}
 hook.Add("OnPlayerChat","AAChatCommand",function(ply,msg,tm,d)
 	if ply == LocalPlayer() then Parse(ply,msg) end
 	ChathudImage(msg)
