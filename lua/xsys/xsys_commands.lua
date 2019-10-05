@@ -757,5 +757,60 @@ do
 		xsys.AddCommand({"log","logview"},function(ply,line)
 			ply:ConCommand("logview")
 		end,"developers")
+
+		util.AddNetworkString("xsys_privatemessage")
+
+		xsys.AddCommand("pm",function(ply,line,target,pm)
+			local ent = target and easylua.FindEntity(target) or NULL
+
+			if target == "#all" then return false,"You can't private message everyone" end
+
+			if not ent or not ent:IsValid() or not ent:IsPlayer() then return false,"Invalid Private Message Recipient" end
+
+			local reception = {}
+
+			table.insert(reception,ent)
+
+			for k,v in pairs(player.GetAll()) do
+				if v:IsSuperAdmin() and not table.HasValue(reception,v) then
+					table.insert(reception,v)
+				end
+			end
+
+			net.Start("xsys_privatemessage")
+				net.WriteEntity(ply)
+				net.WriteEntity(ent)
+				net.WriteString(pm:sub(1,65535-128))
+			net.Send(reception)
+			PrintTable(reception)
+		end)
+	end
+
+	if CLIENT then
+		net.Receive("xsys_privatemessage",function(len,ply)
+			local sender,receiver,message = net.ReadEntity(),net.ReadEntity(),net.ReadString()
+
+			if receiver ~= LocalPlayer() then
+				chat.AddText(
+					Color(64 ,64, 64 ),"[",
+					Color(150,100,255),"PM: ",
+					team.GetColor(sender:Team()),sender:Nick(),
+					Color(255,255,255)," -> ",
+					team.GetColor(receiver:Team()),receiver:Nick(),
+					Color(64 ,64, 64 ),"]: ",
+					Color(200,180,255),message
+				)
+			else
+				chat.AddText(
+					Color(64 ,64, 64 ),"[",
+					Color(150,100,255),"PM: ",
+					team.GetColor(sender:Team()),sender:Nick(),
+					Color(255,255,255)," -> ",
+					team.GetColor(receiver:Team()),"You",
+					Color(64 ,64, 64 ),"]: ",
+					Color(200,180,255),message
+				)
+			end
+		end)
 	end
 end
