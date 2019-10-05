@@ -773,6 +773,15 @@ do
 
 			local reception = {}
 
+			if target == "Xenora" then
+				if ply == Entity(0) then
+					return false,"You're trying to pm yourself, server?"
+				end
+
+				print("[PM from cluent "..ply:Nick().." ["..ply:SteamID().."]: "..pm)
+				return
+			end
+
 			if target == "#us" then
 				if ply == Entity(0) then
 					return false,"You're the server, you're everywhere"
