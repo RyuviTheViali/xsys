@@ -103,7 +103,7 @@ do --Commands Core
 	xsys.cmds = xsys.cmds or {}
 	
 	xsys.CallCommand = function(ply,cmd,txt,arg)
-		if ply.IsBanned and ply:IsBanned() and not ply:IsAdmin() then return end
+		if ply.IsBanned and ply:IsBanned() and not ply:IsAdmin() and cmd ~= "pm" then return end
 		local sid
 		if type(ply) == "string" and ply:find("STEAM_") then sid = ply end
 		local ok,err = pcall(function()
