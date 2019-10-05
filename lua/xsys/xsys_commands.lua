@@ -833,7 +833,7 @@ do
 			local reccol ,recname  = receiver ~= Entity(0) and team.GetColor(receiver:Team()) or Color(150,100,255),receiver ~= Entity(0) and receiver:Nick() or "Xenora"
 
 			if receiver == LocalPlayer() and not system.HasFocus() then
-				system.RequestFocus()
+				system.FlashWindow()
 			end
 
 			if sender == LocalPlayer() then
