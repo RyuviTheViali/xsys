@@ -832,6 +832,10 @@ do
 			local sendcol,sendname = sender   ~= Entity(0) and team.GetColor(sender  :Team()) or Color(150,100,255),sender   ~= Entity(0) and sender  :Nick() or "Xenora"
 			local reccol ,recname  = receiver ~= Entity(0) and team.GetColor(receiver:Team()) or Color(150,100,255),receiver ~= Entity(0) and receiver:Nick() or "Xenora"
 
+			if receiver == LocalPlayer() and not system.HasFocus() then
+				system.RequestFocus()
+			end
+
 			if sender == LocalPlayer() then
 				chat.AddText(
 					Color(64 ,64, 64 ),"[",
