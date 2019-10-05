@@ -774,7 +774,7 @@ do
 					return false,"You're trying to pm yourself, server?"
 				end
 
-				print("[PM from cluent "..ply:Nick().." ["..ply:SteamID().."]: "..pm)
+				print("[PM from client "..ply:Nick().." ["..ply:SteamID().."]: "..pm)
 				return
 			end
 
