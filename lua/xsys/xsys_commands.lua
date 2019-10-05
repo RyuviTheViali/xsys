@@ -765,7 +765,9 @@ do
 				ply = Entity(0)
 			end
 
-			pm = pm..table.concat({...}," ")
+			local extra = {...}
+
+			pm = pm..(#extra > 0 and " "..table.concat({...}," ") or "")
 
 			local ent = target and easylua.FindEntity(target) or NULL
 
