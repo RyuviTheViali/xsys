@@ -769,10 +769,6 @@ do
 
 			if target == "#all" then return false,"You can't private message everyone" end
 
-			if not ent or not ent:IsValid() or not ent:IsPlayer() then return false,"Invalid Private Message Recipient" end
-
-			local reception = {}
-
 			if target == "Xenora" then
 				if ply == Entity(0) then
 					return false,"You're trying to pm yourself, server?"
@@ -781,6 +777,10 @@ do
 				print("[PM from cluent "..ply:Nick().." ["..ply:SteamID().."]: "..pm)
 				return
 			end
+
+			if not ent or not ent:IsValid() or not ent:IsPlayer() then return false,"Invalid Private Message Recipient" end
+
+			local reception = {}
 
 			if target == "#us" then
 				if ply == Entity(0) then
