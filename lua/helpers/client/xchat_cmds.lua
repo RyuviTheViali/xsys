@@ -69,6 +69,7 @@ local function Parse(pl,msg)
 	return hook.Call("ChatCommand",nil,com,paramstr,msg,pl)
 end
  
+local cmds = {["!"]=true,["\\"]=true,["/"]=true,["."]=true}
 hook.Add("OnPlayerChat","AAChatCommand",function(ply,msg,tm,d)
 	if ply == LocalPlayer() then Parse(ply,msg) end
 	ChathudImage(msg)
