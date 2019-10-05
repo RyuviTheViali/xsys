@@ -72,6 +72,7 @@ end
  
 hook.Add("OnPlayerChat","AAChatCommand",function(ply,msg,tm,d)
 	if ply == LocalPlayer() then Parse(ply,msg) end
+	if msg:sub(2,4) == "pm " then return true end
 	ChathudImage(msg)
 	return hook.Call("OnChatSyntaxParse",nil,ply,msg,tm,d)
 end)
