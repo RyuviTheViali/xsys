@@ -761,6 +761,10 @@ do
 		util.AddNetworkString("xsys_privatemessage")
 
 		xsys.AddCommand("pm",function(ply,line,target,pm)
+			if not ply:IsValid() then
+				ply = Entity(0)
+			end
+
 			local ent = target and easylua.FindEntity(target) or NULL
 
 			if target == "#all" then return false,"You can't private message everyone" end
@@ -768,6 +772,32 @@ do
 			if not ent or not ent:IsValid() or not ent:IsPlayer() then return false,"Invalid Private Message Recipient" end
 
 			local reception = {}
+
+			if target == "#us" then
+				if ply == Entity(0) then
+					return false,"You're the server, you're everywhere"
+				end
+
+				for k,v in pairs(player.GetAll()) do
+					if v:GetPos():Distance(ply:GetPos()) <= 256 then
+						table.insert(reception,v)
+					end
+				end
+			end
+				
+			if target == "#this" then
+				if ply == Entity(0) then
+					return false,"You're the server, you're see everything"
+				end
+
+				local traceent = ply:GetEyeTrace().Entity
+
+				if not traceent:IsPlayer() then
+					return false,"#this is not a player"
+				end
+
+				table.insert(reception,traceent)
+			end
 
 			table.insert(reception,ent)
 			table.insert(reception,ply)
@@ -790,13 +820,16 @@ do
 		net.Receive("xsys_privatemessage",function(len,ply)
 			local sender,receiver,message = net.ReadEntity(),net.ReadEntity(),net.ReadString()
 
+			local sendcol,sendname = sender   ~= Entity(0) and team.GetColor(sender  :Team()) or Color(150,100,255),sender   ~= Entity(0) and sender  :Nick() or "Xenora"
+			local reccol ,recname  = receiver ~= Entity(0) and team.GetColor(receiver:Team()) or Color(150,100,255),receiver ~= Entity(0) and receiver:Nick() or "Xenora"
+
 			if sender == LocalPlayer() then
 				chat.AddText(
 					Color(64 ,64, 64 ),"[",
 					Color(150,100,255),"PM: ",
-					team.GetColor(sender:Team()),"You",
+					sendcol           ,"You",
 					Color(255,255,255)," -> ",
-					team.GetColor(receiver:Team()),receiver == LocalPlayer() and "Yourself" or receiver:Nick(),
+					reccol            ,receiver == LocalPlayer() and "Yourself" or recname,
 					Color(64 ,64, 64 ),"]: ",
 					Color(200,180,255),message
 				)
@@ -804,9 +837,9 @@ do
 				chat.AddText(
 					Color(64 ,64, 64 ),"[",
 					Color(150,100,255),"PM: ",
-					team.GetColor(sender:Team()),sender:Nick(),
+					sendcol           ,sendname,
 					Color(255,255,255)," -> ",
-					team.GetColor(receiver:Team()),receiver == LocalPlayer() and "You" or receiver:Nick(),
+					reccol            ,receiver == LocalPlayer() and "You" or recname,
 					Color(64 ,64, 64 ),"]: ",
 					Color(200,180,255),message
 				)
