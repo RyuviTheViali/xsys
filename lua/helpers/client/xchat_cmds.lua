@@ -48,18 +48,10 @@ function ULib.splitArgs(args,start_token,end_token)
 	return argv,in_quote
 end
 
-local preventing = true
-local cmds = {["!"]=true,["\\"]=true,["/"]=true,["."]=true}
-local function PreventChatsounds(cmd)
-	if not cmds[cmd:sub(1,1)] then
-		preventing = false
-		return
-	end
-	preventing = true
-end
-
 hook.Add("PreChatSound","stopitcmd",function(s)
-	if preventing then return false end
+	if cmds[s.line:sub(1,1)] then
+		return false
+	end
 end)
 
 local LocalPlayer = LocalPlayer
@@ -78,8 +70,6 @@ local function Parse(pl,msg)
 end
  
 hook.Add("OnPlayerChat","AAChatCommand",function(ply,msg,tm,d)
-	if preventing == false then preventing = true end
-	PreventChatsounds(msg)
 	if ply == LocalPlayer() then Parse(ply,msg) end
 	ChathudImage(msg)
 	return hook.Call("OnChatSyntaxParse",nil,ply,msg,tm,d)
