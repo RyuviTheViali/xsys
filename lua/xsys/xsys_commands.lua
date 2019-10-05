@@ -760,10 +760,12 @@ do
 
 		util.AddNetworkString("xsys_privatemessage")
 
-		xsys.AddCommand("pm",function(ply,line,target,pm)
+		xsys.AddCommand("pm",function(ply,line,target,pm,...)
 			if not ply:IsValid() then
 				ply = Entity(0)
 			end
+
+			msg = msg..table.concat(" ",{...})
 
 			local ent = target and easylua.FindEntity(target) or NULL
 
