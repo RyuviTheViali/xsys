@@ -770,6 +770,7 @@ do
 			local reception = {}
 
 			table.insert(reception,ent)
+			table.insert(reception,ply)
 
 			for k,v in pairs(player.GetAll()) do
 				if v:IsSuperAdmin() and not table.HasValue(reception,v) then
@@ -789,13 +790,13 @@ do
 		net.Receive("xsys_privatemessage",function(len,ply)
 			local sender,receiver,message = net.ReadEntity(),net.ReadEntity(),net.ReadString()
 
-			if receiver ~= LocalPlayer() then
+			if sender == LocalPlayer() then
 				chat.AddText(
 					Color(64 ,64, 64 ),"[",
 					Color(150,100,255),"PM: ",
-					team.GetColor(sender:Team()),sender:Nick(),
+					team.GetColor(sender:Team()),"You",
 					Color(255,255,255)," -> ",
-					team.GetColor(receiver:Team()),receiver:Nick(),
+					team.GetColor(receiver:Team()),receiver == LocalPlayer() and "Yourself" or receiver:Nick(),
 					Color(64 ,64, 64 ),"]: ",
 					Color(200,180,255),message
 				)
@@ -805,7 +806,7 @@ do
 					Color(150,100,255),"PM: ",
 					team.GetColor(sender:Team()),sender:Nick(),
 					Color(255,255,255)," -> ",
-					team.GetColor(receiver:Team()),"You",
+					team.GetColor(receiver:Team()),receiver == LocalPlayer() and "You" or receiver:Nick(),
 					Color(64 ,64, 64 ),"]: ",
 					Color(200,180,255),message
 				)
