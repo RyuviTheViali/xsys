@@ -782,7 +782,6 @@ do
 				net.WriteEntity(ent)
 				net.WriteString(pm:sub(1,65535-128))
 			net.Send(reception)
-			PrintTable(reception)
 		end)
 	end
 
