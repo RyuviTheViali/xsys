@@ -758,6 +758,19 @@ do
 			ply:ConCommand("logview")
 		end,"developers")
 
+		xsys.AddCommand("act",function(ply,line,target,act)
+			local cact = act and act or target 
+			local ent  = act and (target and easylua.FindEntity(target) or NULL) or ply
+
+			if not ent:IsValid() or not ent:IsPlayer() then return false,"Invalid player" end
+
+			if not ply:CheckUserGroupLevel(ent:GetUserGroup()) then 
+				ent = ply 
+			end
+
+			ent:SendLua([[RunConsoleCommand("act","]]..cact..[[")]])
+		end,"players")
+
 		util.AddNetworkString("xsys_privatemessage")
 
 		xsys.AddCommand("pm",function(ply,line,target,pm,...)
