@@ -104,6 +104,11 @@ if CLIENT then
 		local pos = bone and ply:GetBonePosition(bone)
 		pos = pos or ply:GetShootPos()
 		pos = pos+ply:GetUp()*8+ply:GetForward()*4
+
+		if spi and spi.spheres[ply] and spi.spheres[ply]:IsValid() then
+			pos = spi.spheres[ply]:GetPos()+Vector(0,0,10)
+		end
+
 		surface.SetFont("Default")
 		if msg ~= ply.XCohLastMsg or not ply.XCohCachedMsgData then
 			local d = {lines = {}}
