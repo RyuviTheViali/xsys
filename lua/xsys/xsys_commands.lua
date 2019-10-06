@@ -651,7 +651,7 @@ do
 			table.remove(cmdargs,1)
 			cmdargs       = table.concat(cmdargs," ")
 
-			ent:SendLua([[RunConsoleCommand("]]..cmdname..(cmdargs and [[","]]..cmdargs or "")..[[")]]
+			ent:SendLua([[RunConsoleCommand("]]..cmdname..(cmdargs and [[","]]..cmdargs or "")..[[")]])
 		end,"developers")
 
 		xsys.attr_attributes = {
